@@ -6,33 +6,106 @@
 
 import UIKit
 
-fileprivate enum Hand {
-    static let paper: String = "🖐️"
-    static let rock: String = "✊"
-    static let scissor: String = "✌️"
+protocol HandStrategy {
+    var hand: String { get }
+    var winCount: Int { get }
+    var loseCount: Int { get }
+    var drawCount: Int { get }
 }
 
-class GameView: UIView {
+extension HandStrategy {
+    var randomHand: String? {
+        return ["✊","✌️","🖐️"].randomElement()
+    }
+}
 
+struct ComputerHand: HandStrategy {
+    var hand: String { randomHand ?? "" }
+    var winCount: Int
+    var loseCount: Int
+    var drawCount: Int
+}
+
+struct UserHand: HandStrategy {
+    var hand: String { randomHand ?? "" }
+    var winCount: Int
+    var loseCount: Int
+    var drawCount: Int
+}
+
+protocol HandGame: AnyObject {
+    var handStrategy: HandStrategy { get }
+    var gameResult: GameResult { get set }
+    var hand: String { get }
+}
+
+extension HandGame {
+    var hand: String { handStrategy.hand }
+    
+    var currentWinLose: String {
+        let winCount: Int = handStrategy.winCount
+        let loseCount: Int = handStrategy.loseCount
+        let drawCount: Int = handStrategy.drawCount
+        return "\(winCount)승\(loseCount)패\(drawCount)무"
+    }
+    
+    func determineWinner(left: String?, right: String?) {
+        let handComparison = self is LeftHandGame ? (right, left) : (left, right)
+        switch handComparison {
+        case ("✌️","✊"),("🖐️","✌️"),("✊","🖐️"):
+            gameResult = .win
+        case ("✊","✌️"),("✌️","🖐️"),("🖐️","✊"):
+            gameResult = .lose
+        case ("✊","✊"),("✌️","✌️"),("🖐️","🖐️"):
+            gameResult = .draw
+        default:
+            gameResult = .ready
+        }
+    }
+}
+
+final class LeftHandGame: HandGame {
+    var handStrategy: HandStrategy
+    var gameResult: GameResult
+    
+    init(handStrategy: HandStrategy, gameResult: GameResult) {
+        self.handStrategy = handStrategy
+        self.gameResult = gameResult
+    }
+}
+
+final class RightHandGame: HandGame {
+    var handStrategy: HandStrategy
+    var gameResult: GameResult
+    
+    init(handStrategy: HandStrategy, gameResult: GameResult) {
+        self.handStrategy = handStrategy
+        self.gameResult = gameResult
+    }
+}
+
+enum GameResult: String {
+    case win = "승리"
+    case lose = "패배"
+    case draw = "무승부"
+    case ready = "준비"
+}
+
+final class GameView: UIView {
+
+    private let leftHandGame: HandGame
+    private let rightHandGame: HandGame
+    
     private let computerHandLabel: UILabel = UILabel()
     private let userHandLabel: UILabel = UILabel()
     private let resultLabel: UILabel = UILabel()
     private let currentWinLoseLabel: UILabel = UILabel()
     
-    
-    @objc private func touchUpNextButton() {
-        
-    }
-    
-    @objc private func touchUpResetButton() {
-        
-    }
-    
     private func initialSetup() {
         backgroundColor = .white
         
-        computerHandLabel.text = Hand.paper
-        userHandLabel.text = Hand.paper
+        computerHandLabel.text = leftHandGame.hand
+        userHandLabel.text = rightHandGame.hand
         resultLabel.text = "이겼습니다!"
         currentWinLoseLabel.text = "0승 0무 0패"
         
@@ -114,7 +187,10 @@ class GameView: UIView {
         ])
     }
     
-    init() {
+    init(leftHandGame: HandGame,
+         rightHandGame: HandGame) {
+        self.leftHandGame = leftHandGame
+        self.rightHandGame = rightHandGame
         super.init(frame: .zero)
         initialSetup()
         layViews()
@@ -122,5 +198,15 @@ class GameView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Methods
+    @objc private func touchUpNextButton() {
+        computerHandLabel.text = leftHandGame.hand
+        userHandLabel.text = rightHandGame.hand
+    }
+    
+    @objc private func touchUpResetButton() {
+        currentWinLoseLabel.text = "0승 0무 0패"
     }
 }
