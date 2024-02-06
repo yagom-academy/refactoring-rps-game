@@ -6,95 +6,8 @@
 
 import UIKit
 
-protocol HandStrategy {
-    var hand: String { get }
-    var winCount: Int { get }
-    var loseCount: Int { get }
-    var drawCount: Int { get }
-}
-
-extension HandStrategy {
-    var randomHand: String? {
-        return ["✊","✌️","🖐️"].randomElement()
-    }
-}
-
-struct ComputerHand: HandStrategy {
-    var hand: String { randomHand ?? "" }
-    var winCount: Int
-    var loseCount: Int
-    var drawCount: Int
-}
-
-struct UserHand: HandStrategy {
-    var hand: String { randomHand ?? "" }
-    var winCount: Int
-    var loseCount: Int
-    var drawCount: Int
-}
-
-protocol HandGame: AnyObject {
-    var handStrategy: HandStrategy { get }
-    var gameResult: GameResult { get set }
-    var hand: String { get }
-}
-
-extension HandGame {
-    var hand: String { handStrategy.hand }
-    
-    var currentWinLose: String {
-        let winCount: Int = handStrategy.winCount
-        let loseCount: Int = handStrategy.loseCount
-        let drawCount: Int = handStrategy.drawCount
-        return "\(winCount)승\(loseCount)패\(drawCount)무"
-    }
-    
-    func determineWinner(left: String?, right: String?) {
-        let handComparison = self is LeftHandGame ? (right, left) : (left, right)
-        switch handComparison {
-        case ("✌️","✊"),("🖐️","✌️"),("✊","🖐️"):
-            gameResult = .win
-        case ("✊","✌️"),("✌️","🖐️"),("🖐️","✊"):
-            gameResult = .lose
-        case ("✊","✊"),("✌️","✌️"),("🖐️","🖐️"):
-            gameResult = .draw
-        default:
-            gameResult = .ready
-        }
-    }
-}
-
-final class LeftHandGame: HandGame {
-    var handStrategy: HandStrategy
-    var gameResult: GameResult
-    
-    init(handStrategy: HandStrategy, gameResult: GameResult) {
-        self.handStrategy = handStrategy
-        self.gameResult = gameResult
-    }
-}
-
-final class RightHandGame: HandGame {
-    var handStrategy: HandStrategy
-    var gameResult: GameResult
-    
-    init(handStrategy: HandStrategy, gameResult: GameResult) {
-        self.handStrategy = handStrategy
-        self.gameResult = gameResult
-    }
-}
-
-enum GameResult: String {
-    case win = "승리"
-    case lose = "패배"
-    case draw = "무승부"
-    case ready = "준비"
-}
-
 final class GameView: UIView {
-
-    private let leftHandGame: HandGame
-    private let rightHandGame: HandGame
+    private let rpsGame: RPSGame
     
     private let computerHandLabel: UILabel = UILabel()
     private let userHandLabel: UILabel = UILabel()
@@ -104,10 +17,8 @@ final class GameView: UIView {
     private func initialSetup() {
         backgroundColor = .white
         
-        computerHandLabel.text = leftHandGame.hand
-        userHandLabel.text = rightHandGame.hand
-        resultLabel.text = "이겼습니다!"
-        currentWinLoseLabel.text = "0승 0무 0패"
+        resultLabel.text = rpsGame.resultLabel
+        currentWinLoseLabel.text = rpsGame.currentWinLose
         
         computerHandLabel.font = .systemFont(ofSize: 40)
         userHandLabel.font = .systemFont(ofSize: 40)
@@ -187,10 +98,8 @@ final class GameView: UIView {
         ])
     }
     
-    init(leftHandGame: HandGame,
-         rightHandGame: HandGame) {
-        self.leftHandGame = leftHandGame
-        self.rightHandGame = rightHandGame
+    init(rpsGame: RPSGame) {
+        self.rpsGame = rpsGame
         super.init(frame: .zero)
         initialSetup()
         layViews()
@@ -202,11 +111,49 @@ final class GameView: UIView {
     
     //MARK: - Methods
     @objc private func touchUpNextButton() {
-        computerHandLabel.text = leftHandGame.hand
-        userHandLabel.text = rightHandGame.hand
+        if rpsGame.gameFinished {
+            return
+        }
+        updateHandLabel()
+        determinWinner()
+        updateResultLabel()
+        
+        if rpsGame.gameFinished {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.touchUpResetButton()
+            }
+        }
     }
     
     @objc private func touchUpResetButton() {
-        currentWinLoseLabel.text = "0승 0무 0패"
+        resetHand()
+    }
+    
+    // 양쪽 HandLabel을 업데이트합니다.
+    private func updateHandLabel() {
+        computerHandLabel.text = rpsGame.leftHand
+        userHandLabel.text = rpsGame.rightHand
+    }
+    
+    // 양쪽을 비교해서 우승자를 결정합니다.
+    private func determinWinner() {
+        rpsGame.determineWinner(
+            left: computerHandLabel.text,
+            right: userHandLabel.text)
+    }
+    
+    // 결과 Label을 업데이트합니다.
+    private func updateResultLabel() {
+        currentWinLoseLabel.text = rpsGame.currentWinLose
+        resultLabel.text = rpsGame.resultLabel
+    }
+    
+    // 초기화된 UI를 업데이트합니다.
+    private func resetHand() {
+        rpsGame.resetScore()
+        computerHandLabel.text = nil
+        userHandLabel.text = nil
+        currentWinLoseLabel.text = rpsGame.currentWinLose
+        resultLabel.text = rpsGame.resultLabel
     }
 }
