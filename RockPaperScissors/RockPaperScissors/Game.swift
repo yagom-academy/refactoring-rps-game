@@ -17,8 +17,8 @@ struct Game {
     }
     
     mutating func startGame() {
-        user.makeRandomHand()
-        computer.makeRandomHand()
+        user.setHand()
+        computer.setHand()
     }
     
     mutating func decideWinner() {

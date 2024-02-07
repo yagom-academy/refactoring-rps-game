@@ -23,6 +23,10 @@ struct Player {
         return winCount == 3
     }
     
+    mutating func setHand(hand: Hand = Hand.allCases.randomElement()!) {
+        self.hand = hand
+    }
+    
     mutating func increaseWinCount() {
         self.winCount += 1
     }
@@ -36,12 +40,10 @@ struct Player {
     }
     
     mutating func reset() {
+        self.hand = .paper
         self.winCount = 0
         self.loseCount = 0
         self.drawCount = 0
     }
     
-    mutating func makeRandomHand() {
-        hand = Hand.allCases.randomElement()!
-    }
 }

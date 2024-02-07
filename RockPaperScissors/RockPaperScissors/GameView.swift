@@ -12,15 +12,27 @@ final class GameView: UIView {
     private let userHandLabel: UILabel = UILabel()
     private let resultLabel: UILabel = UILabel()
     private let currentWinLoseLabel: UILabel = UILabel()
+    private let nextButton: UIButton = UIButton(type: .roundedRect)
+    private let resetButton: UIButton = UIButton(type: .roundedRect)
     
     private var game: Game
     
     @objc private func touchUpNextButton() {
+        game.startGame()
+        game.decideWinner()
         
+        updateHandLabel()
+        updateResultLabel()
+        updateWinLoseLabel()
     }
     
     @objc private func touchUpResetButton() {
-        
+        resetGame()
+    }
+    
+    private func updateHandLabel() {
+        computerHandLabel.text = game.computer.hand.value
+        userHandLabel.text = game.user.hand.value
     }
     
     private func updateWinLoseLabel() {
@@ -31,11 +43,28 @@ final class GameView: UIView {
     private func updateResultLabel() {
         if let winnerName: String = game.winnerName() {
             resultLabel.text = "\(winnerName) 이겼습니다!!"
+            
+            updateButtonEnabled()
         }
+    }
+    
+    private func updateButtonEnabled() {
+        nextButton.isEnabled.toggle()
+        resetButton.isEnabled.toggle()
     }
     
     private func resetGame() {
         game.reset()
+        
+        resetLabel()
+        updateHandLabel()
+        updateWinLoseLabel()
+        updateButtonEnabled()
+    }
+    
+    private func resetLabel() {
+        resultLabel.text = ""
+        currentWinLoseLabel.text = "0승 0무 0패"
     }
     
     private func initialSetup() {
@@ -43,7 +72,7 @@ final class GameView: UIView {
         
         computerHandLabel.text = game.computer.hand.value
         userHandLabel.text = game.user.hand.value
-        currentWinLoseLabel.text = "0승 0무 0패"
+        resetLabel()
         
         computerHandLabel.font = .systemFont(ofSize: 40)
         userHandLabel.font = .systemFont(ofSize: 40)
@@ -61,10 +90,10 @@ final class GameView: UIView {
         let topClearView: UIView = UIView()
         topClearView.backgroundColor = .clear
         
-        let nextButton: UIButton = UIButton(type: .roundedRect)
         nextButton.setTitle("NEXT", for: .normal)
         nextButton.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
-        let resetButton: UIButton = UIButton(type: .roundedRect)
+        
+        resetButton.isEnabled = false
         resetButton.setTitle("RESET", for: .normal)
         resetButton.addTarget(self, action: #selector(touchUpResetButton), for: .touchUpInside)
         
