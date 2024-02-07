@@ -51,6 +51,31 @@ final class RockPaperScissorsTests: XCTestCase {
         XCTAssertEqual(sut.user.name, winnerName)
     }
     
+    func test_컴퓨터가_먼저_3승하는경우_컴퓨터이름과_winnerName이_동일한가() {
+        // given
+        sut.computer.increaseWinCount()
+        sut.computer.increaseWinCount()
+        sut.computer.increaseWinCount()
+        
+        // when
+        let winnerName = sut.winnerName()
+        
+        // then
+        XCTAssertEqual(sut.computer.name, winnerName)
+    }
+    
+    func test_3승하지_못한_경우에_winnerName은_nil인가() {
+        // given
+        sut.user.increaseWinCount()
+        sut.user.increaseWinCount()
+        
+        // when
+        let winnerName = sut.winnerName()
+        
+        // then
+        XCTAssertNil(winnerName)
+    }
+    
     func test_reset버튼을_누르면_상태가_초기화되는가() {
         // given
         sut.reset()
