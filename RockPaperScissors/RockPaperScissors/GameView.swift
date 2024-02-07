@@ -6,19 +6,14 @@
 
 import UIKit
 
-fileprivate enum Hand {
-    static let paper: String = "🖐️"
-    static let rock: String = "✊"
-    static let scissor: String = "✌️"
-}
-
-class GameView: UIView {
+final class GameView: UIView {
 
     private let computerHandLabel: UILabel = UILabel()
     private let userHandLabel: UILabel = UILabel()
     private let resultLabel: UILabel = UILabel()
     private let currentWinLoseLabel: UILabel = UILabel()
     
+    private var game: Game
     
     @objc private func touchUpNextButton() {
         
@@ -28,12 +23,26 @@ class GameView: UIView {
         
     }
     
+    private func updateWinLoseLabel() {
+        let user: Player = game.user
+        currentWinLoseLabel.text = "\(user.winCount)승 \(user.drawCount)무 \(user.loseCount)패"
+    }
+    
+    private func updateResultLabel() {
+        if let winnerName: String = game.winnerName() {
+            resultLabel.text = "\(winnerName) 이겼습니다!!"
+        }
+    }
+    
+    private func resetGame() {
+        game.reset()
+    }
+    
     private func initialSetup() {
         backgroundColor = .white
         
-        computerHandLabel.text = Hand.paper
-        userHandLabel.text = Hand.paper
-        resultLabel.text = "이겼습니다!"
+        computerHandLabel.text = game.computer.hand.value
+        userHandLabel.text = game.user.hand.value
         currentWinLoseLabel.text = "0승 0무 0패"
         
         computerHandLabel.font = .systemFont(ofSize: 40)
@@ -114,8 +123,10 @@ class GameView: UIView {
         ])
     }
     
-    init() {
+    init(game: Game) {
+        self.game = game
         super.init(frame: .zero)
+        
         initialSetup()
         layViews()
     }
