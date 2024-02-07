@@ -122,8 +122,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_유저와_컴퓨터가_주먹을_낸_경우_drawCount가_1_증가하는가() {
         // given
-        sut.user.setHand(hand: .rock)
-        sut.computer.setHand(hand: .rock)
+        sut.startGame(userHand: .rock, computerHand: .rock)
         
         // when
         sut.decideWinner()
@@ -135,8 +134,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_유저와_컴퓨터가_가위를_낸_경우_drawCount가_1_증가하는가() {
         // given
-        sut.user.setHand(hand: .scissor)
-        sut.computer.setHand(hand: .scissor)
+        sut.startGame(userHand: .scissor, computerHand: .scissor)
         
         // when
         sut.decideWinner()
@@ -148,8 +146,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_유저와_컴퓨터가_보를_낸_경우_drawCount가_1_증가하는가() {
         // given
-        sut.user.setHand(hand: .paper)
-        sut.computer.setHand(hand: .paper)
+        sut.startGame(userHand: .paper, computerHand: .paper)
         
         // when
         sut.decideWinner()
@@ -163,8 +160,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_유저가_가위_컴퓨터는_보를_내서_이기는경우_winCount가_1_증가하는가() {
         // given
-        sut.user.setHand(hand: .scissor)
-        sut.computer.setHand(hand: .paper)
+        sut.startGame(userHand: .scissor, computerHand: .paper)
         
         // when
         sut.decideWinner()
@@ -176,8 +172,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_유저가_보_컴퓨터는_주먹을_내서_이기는경우_winCount가_1_증가하는가() {
         // given
-        sut.user.setHand(hand: .paper)
-        sut.computer.setHand(hand: .rock)
+        sut.startGame(userHand: .paper, computerHand: .rock)
         
         // when
         sut.decideWinner()
@@ -189,8 +184,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_유저가_주먹_컴퓨터는_가위를_내서_이기는경우_winCount가_1_증가하는가() {
         // given
-        sut.user.setHand(hand: .rock)
-        sut.computer.setHand(hand: .scissor)
+        sut.startGame(userHand: .rock, computerHand: .scissor)
         
         // when
         sut.decideWinner()
@@ -204,8 +198,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_유저가_가위_컴퓨터는_주먹을_내서_지는경우_loseCount가_1_증가하는가() {
         // given
-        sut.user.setHand(hand: .scissor)
-        sut.computer.setHand(hand: .rock)
+        sut.startGame(userHand: .scissor, computerHand: .rock)
         
         // when
         sut.decideWinner()
@@ -217,8 +210,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_유저가_주먹_컴퓨터는_보를_내서_지는경우_loseCount가_1_증가하는가() {
         // given
-        sut.user.setHand(hand: .rock)
-        sut.computer.setHand(hand: .paper)
+        sut.startGame(userHand: .rock, computerHand: .paper)
         
         // when
         sut.decideWinner()
@@ -230,8 +222,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_유저가_보_컴퓨터는_가위를_내서_지는경우_loseCount가_1_증가하는가() {
         // given
-        sut.user.setHand(hand: .paper)
-        sut.computer.setHand(hand: .scissor)
+        sut.startGame(userHand: .paper, computerHand: .scissor)
         
         // when
         sut.decideWinner()

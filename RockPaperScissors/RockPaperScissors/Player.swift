@@ -23,7 +23,7 @@ struct Player {
         return winCount == 3
     }
     
-    mutating func setHand(hand: Hand = Hand.allCases.randomElement()!) {
+    mutating func setHand(hand: Hand) {
         self.hand = hand
     }
     

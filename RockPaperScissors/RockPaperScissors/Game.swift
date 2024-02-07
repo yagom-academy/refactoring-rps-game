@@ -16,9 +16,12 @@ struct Game {
         self.computer = computer
     }
     
-    mutating func startGame() {
-        user.setHand()
-        computer.setHand()
+    mutating func startGame(
+        userHand: Hand = Hand.allCases.randomElement()!,
+        computerHand: Hand = Hand.allCases.randomElement()!
+    ) {
+        user.setHand(hand: userHand)
+        computer.setHand(hand: computerHand)
     }
     
     mutating func decideWinner() {
