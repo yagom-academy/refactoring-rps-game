@@ -15,24 +15,24 @@ struct Score {
     var counts: [Int] { [winCount, loseCount, drawCount] }
     var totalScore: Int { counts.reduce(0,+) }
     
-    var correuntWinlose: String { "\(winCount)승 \(loseCount)패 \(drawCount)무" }
+    var currentWinlose: String { "\(winCount)승 \(loseCount)패 \(drawCount)무" }
     
     var gameResult: GameResult? {
         var index = 0
         
         if totalScore == 0 {
-            index = GameState.GAME_READY
+            return .ready
         } else if totalScore < limit {
-            index = GameState.GAME_PLAYING
+            return .playing
         } else if winCount == loseCount {
-            index = GameState.GAME_DRAW
+            return .draw
         } else if winCount > loseCount {
-            index = GameState.GAME_WIN
+            return .win
         } else if winCount < loseCount {
-            index = GameState.GAME_LOSE
+            return .lose
+        } else {
+            return .none
         }
-        
-        return GameResult(rawValue: index)
     }
 }
 

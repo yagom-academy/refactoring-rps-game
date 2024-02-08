@@ -14,7 +14,7 @@ enum GameResult: Int {
     case playing
     case ready
     
-    var result: String {
+    var label: String {
         switch self {
         case .win:
             return "승리"
@@ -28,12 +28,4 @@ enum GameResult: Int {
             return "준비"
         }
     }
-}
-
-enum GameState {
-    static let GAME_WIN = 0
-    static let GAME_LOSE = 1
-    static let GAME_DRAW = 2
-    static let GAME_PLAYING = 3
-    static let GAME_READY = 4
 }

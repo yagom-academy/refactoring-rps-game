@@ -31,9 +31,9 @@ extension HandGame {
     var totalScore: Int { score.totalScore }
     
     var gameResult: GameResult? { score.gameResult }
-    var resultLabel: String? { gameResult?.result }
+    var resultLabel: String? { gameResult?.label }
     
-    var currentWinLose: String { score.correuntWinlose }
+    var currentWinLose: String { score.currentWinlose }
     
     var gameFinished: Bool { score.totalScore >= score.limit }
     
