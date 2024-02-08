@@ -6,10 +6,11 @@
 
 import UIKit
 
-fileprivate enum Hand {
+enum Hand {
     static let paper: String = "🖐️"
     static let rock: String = "✊"
     static let scissor: String = "✌️"
+    static let allValues = [paper, rock, scissor]
 }
 
 class GameView: UIView {
