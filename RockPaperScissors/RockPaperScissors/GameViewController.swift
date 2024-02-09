@@ -1,23 +1,36 @@
 //
 //  RockPaperScissors - ViewController.swift
-//  Created by yagom. 
+//  Created by yagom.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
 class GameViewController: UIViewController {
-
+    
     
     override func loadView() {
-        view = GameView()
+        view = GameView(
+            rpsGame: RPSGame(
+                leftHand: ComputerHand(
+                    name: "컴퓨터"),
+                rightHand: UserHand(
+                    name: "나"),
+                score: Score(
+                    winCount: 0,
+                    loseCount: 0,
+                    drawCount: 0,
+                    limit: 3),
+                myHand: .right
+            )
+        )    
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
+    
+    
 }
 
