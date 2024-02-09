@@ -10,6 +10,7 @@
 		B5B8AB2D2B72104100A5DAE9 /* RockPaperScissorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B8AB2C2B72104100A5DAE9 /* RockPaperScissorsTests.swift */; };
 		B5B8AB342B72206E00A5DAE9 /* RPSGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B8AB332B72206E00A5DAE9 /* RPSGame.swift */; };
 		B5B8AB362B72654500A5DAE9 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B8AB352B72654500A5DAE9 /* Player.swift */; };
+		B5B8AB762B7612F200A5DAE9 /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B8AB752B7612F200A5DAE9 /* Hand.swift */; };
 		C784841D2B5E48E300FBF8B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784841C2B5E48E300FBF8B4 /* AppDelegate.swift */; };
 		C784841F2B5E48E300FBF8B4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784841E2B5E48E300FBF8B4 /* SceneDelegate.swift */; };
 		C78484212B5E48E300FBF8B4 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78484202B5E48E300FBF8B4 /* GameViewController.swift */; };
@@ -34,6 +35,7 @@
 		B5B8AB2C2B72104100A5DAE9 /* RockPaperScissorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RockPaperScissorsTests.swift; sourceTree = "<group>"; };
 		B5B8AB332B72206E00A5DAE9 /* RPSGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSGame.swift; sourceTree = "<group>"; };
 		B5B8AB352B72654500A5DAE9 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		B5B8AB752B7612F200A5DAE9 /* Hand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
 		C78484192B5E48E300FBF8B4 /* RockPaperScissors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RockPaperScissors.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C784841C2B5E48E300FBF8B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C784841E2B5E48E300FBF8B4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				C784842A2B5E48E400FBF8B4 /* Info.plist */,
 				B5B8AB332B72206E00A5DAE9 /* RPSGame.swift */,
 				B5B8AB352B72654500A5DAE9 /* Player.swift */,
+				B5B8AB752B7612F200A5DAE9 /* Hand.swift */,
 			);
 			path = RockPaperScissors;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				B5B8AB342B72206E00A5DAE9 /* RPSGame.swift in Sources */,
 				C784841D2B5E48E300FBF8B4 /* AppDelegate.swift in Sources */,
 				C78484642B6A32E500FBF8B4 /* GameView.swift in Sources */,
+				B5B8AB762B7612F200A5DAE9 /* Hand.swift in Sources */,
 				B5B8AB362B72654500A5DAE9 /* Player.swift in Sources */,
 				C784841F2B5E48E300FBF8B4 /* SceneDelegate.swift in Sources */,
 			);

@@ -8,12 +8,6 @@
 import Foundation
 
 final class Player {
-    enum Hand: CaseIterable {
-        case paper
-        case rock
-        case scissor
-    }
-    
     private(set) var hand: Hand
     private var winCount: Int = 0
     
@@ -29,11 +23,11 @@ final class Player {
         return winCount == 0
     }
     
-    func increseWinCount() {
+    func increaseWinCount() {
         winCount += 1
     }
     
-    func clearWinCount() {
+    func resetWinCount() {
         winCount = 0
     }
     

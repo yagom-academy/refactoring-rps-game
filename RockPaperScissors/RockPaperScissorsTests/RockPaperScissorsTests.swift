@@ -9,7 +9,7 @@ import XCTest
 @testable import RockPaperScissors
 
 final class RockPaperScissorsTests: XCTestCase {
-    var sut: RPSGame!
+    var sut: RPSGame?
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -26,8 +26,7 @@ final class RockPaperScissorsTests: XCTestCase {
     //  해당 타입, 메서드를 구현해가며 지속적으로 리팩터링 합니다
     func test_양쪽이_낸_패의_승패_판결() {
         // given
-        sut = RPSGame(user: Player(hand: .rock),
-                      computer: Player(hand: .paper))
+        guard let sut = sut else { return }
         
         // when
         let result = sut.determineWinner()
@@ -37,29 +36,38 @@ final class RockPaperScissorsTests: XCTestCase {
     }
     
     // 삼세판을 이기면 승리하는 기능을 TDD로 구현합니다
-    func test_삼세판을_이기면_승리() {
+    func test_삼세판을_이기면_승리_승자() {
         // given
-        sut = RPSGame(user: Player(hand: .rock),
-                      computer: Player(hand: .paper))
+        guard let sut = sut else { return }
         
         // when
-        sut.determineWinner3Game()
+        sut.playThreeGames()
         
         // then
-        let winner: Player = sut.isWinner().winner
-        let loser: Player = sut.isWinner().loser
+        let winner: Player = sut.getGameResult().winner
         
         XCTAssertEqual(winner.isWin, true)
+    }
+    
+    func test_삼세판을_이기면_승리_패자() {
+        // given
+        guard let sut = sut else { return }
+        
+        // when
+        sut.playThreeGames()
+        
+        // then
+        let loser: Player = sut.getGameResult().loser
+        
         XCTAssertNotEqual(loser.isWin, true)
     }
 
     // 삼세판이 끝나고 승패가 갈리면 초기화 하는 기능을 TDD로 구현합니다
     func test_삼세판을_이기면_승패가_갈리면_초기화() {
         // given
-        sut = RPSGame(user: Player(hand: .rock),
-                      computer: Player(hand: .paper))
+        guard let sut = sut else { return }
         
-        sut.determineWinner3Game()
+        sut.playThreeGames()
         
         // then
         sut.resetGame()

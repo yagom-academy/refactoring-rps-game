@@ -34,36 +34,36 @@ struct RPSGame {
         }
     }
     
-    func increseByGameResult(of result: GameResult) {
+    func updateWinCount(by result: GameResult) {
         switch result {
         case .win:
-            user.increseWinCount()
+            user.increaseWinCount()
         case .draw:
             break
         case .lose:
-            computer.increseWinCount()
+            computer.increaseWinCount()
         }
     }
     
-    func isWinner() -> (winner: Player, loser: Player) {
+    func getGameResult() -> (winner: Player, loser: Player) {
         let winner: Player = user.isWin ? user : computer
         let loser: Player = user.isWin ? computer : user
         
         return (winner, loser)
     }
     
-    func determineWinner3Game() {
+    func playThreeGames() {
         repeat {
             // given
             user.makeRandomRPS()
             computer.makeRandomRPS()
             // when
-            increseByGameResult(of: determineWinner())
+            updateWinCount(by: determineWinner())
         } while user.isWin && computer.isWin
     }
     
     func resetGame() {
-        computer.clearWinCount()
-        user.clearWinCount()
+        computer.resetWinCount()
+        user.resetWinCount()
     }
 }
