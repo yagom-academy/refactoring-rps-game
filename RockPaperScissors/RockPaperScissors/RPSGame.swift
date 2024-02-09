@@ -7,13 +7,28 @@
 
 import Foundation
 
-struct RPSGame {
-    enum GameResult {
-        case win
-        case draw
-        case lose
-    }
+protocol GameAble {
+    func readyToGame()
+    func playGame() -> GameResult
+    func checkResult()
+    func resetGame()
+}
+
+protocol RPSAble: GameAble {
+    var user: Player { get }
+    var computer: Player { get }
     
+    func updateWinCount(by result: GameResult)
+    func getGameResult() -> (winner: Player, loser: Player)
+}
+
+enum GameResult {
+    case win
+    case draw
+    case lose
+}
+
+struct RPSGame: RPSAble {
     let user: Player
     let computer: Player
     
@@ -22,7 +37,12 @@ struct RPSGame {
         self.computer = computer
     }
     
-    func determineWinner() -> GameResult {
+    func readyToGame() {
+        user.makeRandomRPS()
+        computer.makeRandomRPS()
+    }
+    
+    func playGame() -> GameResult {
         if user.hand == computer.hand {
             return .draw
         } else if (user.hand == .rock && computer.hand == .scissor) ||
@@ -32,6 +52,10 @@ struct RPSGame {
         } else {
             return .lose
         }
+    }
+    
+    func checkResult() {
+        updateWinCount(by: playGame())
     }
     
     func updateWinCount(by result: GameResult) {
@@ -46,8 +70,8 @@ struct RPSGame {
     }
     
     func getGameResult() -> (winner: Player, loser: Player) {
-        let winner: Player = user.isWin ? user : computer
-        let loser: Player = user.isWin ? computer : user
+        let winner: Player = user.isWinner ? user : computer
+        let loser: Player = user.isWinner ? computer : user
         
         return (winner, loser)
     }
@@ -58,8 +82,8 @@ struct RPSGame {
             user.makeRandomRPS()
             computer.makeRandomRPS()
             // when
-            updateWinCount(by: determineWinner())
-        } while user.isWin && computer.isWin
+            updateWinCount(by: playGame())
+        } while user.isWinner && computer.isWinner
     }
     
     func resetGame() {

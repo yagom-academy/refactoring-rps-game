@@ -15,7 +15,7 @@ final class Player {
         self.hand = hand
     }
     
-    var isWin: Bool {
+    var isWinner: Bool {
         return winCount < 3
     }
     

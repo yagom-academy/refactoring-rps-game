@@ -29,7 +29,7 @@ final class RockPaperScissorsTests: XCTestCase {
         guard let sut = sut else { return }
         
         // when
-        let result = sut.determineWinner()
+        let result = sut.playGame()
         
         // then
         XCTAssertEqual(result, .lose)
@@ -46,7 +46,7 @@ final class RockPaperScissorsTests: XCTestCase {
         // then
         let winner: Player = sut.getGameResult().winner
         
-        XCTAssertEqual(winner.isWin, true)
+        XCTAssertEqual(winner.isWinner, true)
     }
     
     func test_삼세판을_이기면_승리_패자() {
@@ -59,7 +59,7 @@ final class RockPaperScissorsTests: XCTestCase {
         // then
         let loser: Player = sut.getGameResult().loser
         
-        XCTAssertNotEqual(loser.isWin, true)
+        XCTAssertNotEqual(loser.isWinner, true)
     }
 
     // 삼세판이 끝나고 승패가 갈리면 초기화 하는 기능을 TDD로 구현합니다
