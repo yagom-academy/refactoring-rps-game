@@ -11,7 +11,7 @@ class GameViewController: UIViewController {
     
     override func loadView() {
         view = GameView(
-            rpsGame: RPSGame(
+            mjpGame: MJPGame(
                 leftHand: ComputerHand(
                     name: "컴퓨터"),
                 rightHand: UserHand(
@@ -20,10 +20,12 @@ class GameViewController: UIViewController {
                     winCount: 0,
                     loseCount: 0,
                     drawCount: 0,
-                    limit: 3),
-                myHand: .right
+                    limit: 3,
+                    totalGameCount: 0),
+                myHand: .right,
+                attacker: nil
             )
-        )    
+        )
     }
     
     override func viewDidLoad() {

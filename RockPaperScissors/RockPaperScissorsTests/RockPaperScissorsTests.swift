@@ -22,7 +22,8 @@ final class RockPaperScissorsTests: XCTestCase {
                 winCount: 0,
                 loseCount: 0,
                 drawCount: 0,
-                limit: 3),
+                limit: 3,
+                totalGameCount: 0),
             myHand: .right)
     }
     
@@ -181,6 +182,4 @@ final class RockPaperScissorsTests: XCTestCase {
         XCTAssertEqual(sut?.drawCount, 0)
         XCTAssertEqual(sut?.gameResult, .ready)
     }
-    
-    
 }

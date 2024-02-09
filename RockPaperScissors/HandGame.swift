@@ -17,6 +17,9 @@ protocol HandGame: AnyObject {
     var rightHand: HandStrategy { get }
     var score: Score { get set }
     var myHand: HandType { get }
+    
+    func determineWinner(left: String?, right: String?)
+    func resetScore()
 }
 
 extension HandGame {
@@ -35,21 +38,7 @@ extension HandGame {
     
     var currentWinLose: String { score.currentWinlose }
     
-    var gameFinished: Bool { score.totalScore >= score.limit }
-    
-    func determineWinner(left: String?, right: String?) {
-        let handComparison = myHand == .left ? (right, left) : (left, right)
-        switch handComparison {
-        case ("✌️","✊"),("🖐️","✌️"),("✊","🖐️"):
-            score.upWinCount()
-        case ("✊","✌️"),("✌️","🖐️"),("🖐️","✊"):
-            score.upLoseCount()
-        case ("✊","✊"),("✌️","✌️"),("🖐️","🖐️"):
-            score.upDrawCount()
-        default:
-            return
-        }
-    }
+    var gameFinished: Bool { totalScore >= score.limit }
     
     func resetScore() {
         score.resetScore()
@@ -67,5 +56,72 @@ final class RPSGame: HandGame {
         self.rightHand = rightHand
         self.score = score
         self.myHand = myHand
+    }
+    
+    func determineWinner(left: String?, right: String?) {
+        let handComparison = myHand == .left ? (right, left) : (left, right)
+        switch handComparison {
+        case ("✌️","✊"),("🖐️","✌️"),("✊","🖐️"):
+            score.upWinCount()
+        case ("✊","✌️"),("✌️","🖐️"),("🖐️","✊"):
+            score.upLoseCount()
+        case ("✊","✊"),("✌️","✌️"),("🖐️","🖐️"):
+            score.upDrawCount()
+        default:
+            return
+        }
+    }
+}
+
+final class MJPGame: HandGame {
+    private(set) var leftHand: HandStrategy
+    private(set) var rightHand: HandStrategy
+    var score: Score
+    private(set) var myHand: HandType
+    private(set) var attacker: HandType?
+    
+    init(leftHand: HandStrategy,
+         rightHand: HandStrategy,
+         score: Score,
+         myHand: HandType,
+         attacker: HandType?) {
+        self.leftHand = leftHand
+        self.rightHand = rightHand
+        self.score = score
+        self.myHand = myHand
+        self.attacker = attacker
+    }
+    
+    func determineWinner(left: String?, right: String?) {
+        let handComparison = myHand == .left ? (right, left) : (left, right)
+        switch handComparison {
+        case ("✌️","✊"),("🖐️","✌️"),("✊","🖐️"):
+            score.upTotalCount()
+            attacker = .right
+        case ("✊","✌️"),("✌️","🖐️"),("🖐️","✊"):
+            score.upTotalCount()
+            attacker = .left
+        case ("✊","✊"),("✌️","✌️"),("🖐️","🖐️"):
+            score.upTotalCount()
+            updateGameCount()
+        default:
+            return
+        }
+    }
+    
+    private func updateGameCount() {
+        guard attacker != nil else { return }
+        if attacker == myHand {
+            score.upWinCount()
+        } else {
+            score.upLoseCount()
+        }
+        
+        attacker = nil
+    }
+    
+    func resetScore() {
+        score.resetScore()
+        attacker = nil
     }
 }
