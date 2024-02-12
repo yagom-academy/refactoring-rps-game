@@ -18,7 +18,15 @@ final class GameView: UIView {
     private var game: Game
     
     @objc private func touchUpNextButton() {
-        game.startGame()
+        guard let userHand = Hand.allCases.randomElement(),
+              let computerHand = Hand.allCases.randomElement() else {
+            fatalError("가위, 바위, 보 중 올바른 값이 생성되지 않았습니다.")
+        }
+        
+        game.startGame(
+            userHand: userHand,
+            computerHand: computerHand
+        )
         game.decideWinner()
         
         updateHandLabel()
