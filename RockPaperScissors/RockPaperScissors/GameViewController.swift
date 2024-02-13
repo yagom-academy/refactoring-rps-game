@@ -6,11 +6,13 @@
 
 import UIKit
 
-class GameViewController: UIViewController {
+final class GameViewController: UIViewController {
 
-    
     override func loadView() {
-        view = GameView()
+        let user: Player = Player(name: "나", hand: .paper)
+        let computer: Player = Player(name: "컴퓨터", hand: .paper)
+        let game: Game = Game(user: user, computer: computer)
+        view = GameView(game: game)
     }
     
     override func viewDidLoad() {
