@@ -1,5 +1,5 @@
 //
-//  RockPaperScissors - GameView.swift
+//  RockPaperScissors - RPSGameView.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
@@ -7,7 +7,7 @@
 import UIKit
 
 final class GameView: UIView {
-    private let rpsGame: RPSGame
+    private let mjpGame: MJPGame
     
     private let computerHandLabel: UILabel = UILabel()
     private let userHandLabel: UILabel = UILabel()
@@ -17,8 +17,8 @@ final class GameView: UIView {
     private func initialSetup() {
         backgroundColor = .white
         
-        resultLabel.text = rpsGame.resultLabel
-        currentWinLoseLabel.text = rpsGame.currentWinLose
+        resultLabel.text = mjpGame.resultLabel
+        currentWinLoseLabel.text = mjpGame.currentWinLose
         
         computerHandLabel.font = .systemFont(ofSize: 40)
         userHandLabel.font = .systemFont(ofSize: 40)
@@ -98,8 +98,8 @@ final class GameView: UIView {
         ])
     }
     
-    init(rpsGame: RPSGame) {
-        self.rpsGame = rpsGame
+    init(mjpGame: MJPGame) {
+        self.mjpGame = mjpGame
         super.init(frame: .zero)
         initialSetup()
         layViews()
@@ -111,14 +111,14 @@ final class GameView: UIView {
     
     //MARK: - Methods
     @objc private func touchUpNextButton() {
-        if rpsGame.gameFinished {
+        if mjpGame.gameFinished {
             return
         }
         updateHandLabel()
         determinWinner()
         updateResultLabel()
         
-        if rpsGame.gameFinished {
+        if mjpGame.gameFinished {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.touchUpResetButton()
             }
@@ -131,29 +131,29 @@ final class GameView: UIView {
     
     // 양쪽 HandLabel을 업데이트합니다.
     private func updateHandLabel() {
-        computerHandLabel.text = rpsGame.leftHand
-        userHandLabel.text = rpsGame.rightHand
+        computerHandLabel.text = mjpGame.leftHand
+        userHandLabel.text = mjpGame.rightHand
     }
     
     // 양쪽을 비교해서 우승자를 결정합니다.
     private func determinWinner() {
-        rpsGame.determineWinner(
+        mjpGame.determineWinner(
             left: computerHandLabel.text,
             right: userHandLabel.text)
     }
     
     // 결과 Label을 업데이트합니다.
     private func updateResultLabel() {
-        currentWinLoseLabel.text = rpsGame.currentWinLose
-        resultLabel.text = rpsGame.resultLabel
+        currentWinLoseLabel.text = mjpGame.currentWinLose
+        resultLabel.text = mjpGame.resultLabel
     }
     
     // 초기화된 UI를 업데이트합니다.
     private func resetHand() {
-        rpsGame.resetScore()
+        mjpGame.resetScore()
         computerHandLabel.text = nil
         userHandLabel.text = nil
-        currentWinLoseLabel.text = rpsGame.currentWinLose
-        resultLabel.text = rpsGame.resultLabel
+        currentWinLoseLabel.text = mjpGame.currentWinLose
+        resultLabel.text = mjpGame.resultLabel
     }
 }
