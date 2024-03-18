@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		51304F982BA887A500BBCD8B /* RockPaperScissorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51304F972BA887A500BBCD8B /* RockPaperScissorsTests.swift */; };
+		51304FA12BA88F7000BBCD8B /* RPSGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51304FA02BA88F7000BBCD8B /* RPSGame.swift */; };
+		51304FA32BA8915E00BBCD8B /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51304FA22BA8915E00BBCD8B /* Hand.swift */; };
 		C784841D2B5E48E300FBF8B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784841C2B5E48E300FBF8B4 /* AppDelegate.swift */; };
 		C784841F2B5E48E300FBF8B4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784841E2B5E48E300FBF8B4 /* SceneDelegate.swift */; };
 		C78484212B5E48E300FBF8B4 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78484202B5E48E300FBF8B4 /* GameViewController.swift */; };
@@ -30,6 +32,8 @@
 /* Begin PBXFileReference section */
 		51304F952BA887A500BBCD8B /* RockPaperScissorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RockPaperScissorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51304F972BA887A500BBCD8B /* RockPaperScissorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RockPaperScissorsTests.swift; sourceTree = "<group>"; };
+		51304FA02BA88F7000BBCD8B /* RPSGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSGame.swift; sourceTree = "<group>"; };
+		51304FA22BA8915E00BBCD8B /* Hand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
 		C78484192B5E48E300FBF8B4 /* RockPaperScissors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RockPaperScissors.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C784841C2B5E48E300FBF8B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C784841E2B5E48E300FBF8B4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,10 +96,12 @@
 				C784841E2B5E48E300FBF8B4 /* SceneDelegate.swift */,
 				C78484202B5E48E300FBF8B4 /* GameViewController.swift */,
 				C78484632B6A32E500FBF8B4 /* GameView.swift */,
+				51304FA02BA88F7000BBCD8B /* RPSGame.swift */,
 				C78484222B5E48E300FBF8B4 /* Main.storyboard */,
 				C78484252B5E48E400FBF8B4 /* Assets.xcassets */,
 				C78484272B5E48E400FBF8B4 /* LaunchScreen.storyboard */,
 				C784842A2B5E48E400FBF8B4 /* Info.plist */,
+				51304FA22BA8915E00BBCD8B /* Hand.swift */,
 			);
 			path = RockPaperScissors;
 			sourceTree = "<group>";
@@ -210,8 +216,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C78484212B5E48E300FBF8B4 /* GameViewController.swift in Sources */,
+				51304FA12BA88F7000BBCD8B /* RPSGame.swift in Sources */,
 				C784841D2B5E48E300FBF8B4 /* AppDelegate.swift in Sources */,
 				C78484642B6A32E500FBF8B4 /* GameView.swift in Sources */,
+				51304FA32BA8915E00BBCD8B /* Hand.swift in Sources */,
 				C784841F2B5E48E300FBF8B4 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
