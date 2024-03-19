@@ -19,11 +19,9 @@ struct GameScore {
             if win == targetScore {
                 return MatchResult.win
             }
-            
             else if lose == targetScore {
                 return MatchResult.lose
             }
-            
             else {
                 return MatchResult.draw
             }

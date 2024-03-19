@@ -7,10 +7,9 @@
 
 import Foundation
 
-
-
 protocol GameRule {
     var score: GameScore { get }
+    var gameState: GameState { get }
     func match(myAction: Actions, opponentAction: Actions) -> MatchResult
 }
 
