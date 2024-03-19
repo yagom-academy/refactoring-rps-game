@@ -84,7 +84,7 @@ final class UpDownGameUITests: XCTestCase {
     
     func test_양쪽에서_패를냈을때_찌_빠을_낸경우_이기(){
         // given
-        let myAction: Actions = .rock
+        let myAction: Actions = .sissor
         let yourAction: Actions = .paper
         
         // when
