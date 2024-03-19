@@ -20,21 +20,162 @@ import XCTest
 
 final class RockPaperScissorsTests: XCTestCase {
     var sut: Game?
-    
-    override func setUpWithError() throws {
-        sut = Game(user: User(), computer: User())
-    }
-    
-    // TestCode 테스팅
-    func test_userWin() throws {
+
+    // 비겼을 때
+    func test_draw() throws {
         // given
-        let userScore = sut?.user.score
-        let computerScore = sut?.computer.score
+        sut = Game(user: User(hand: .paper), computer: User(hand: .paper))
+        
         // when
-        sut?.userWin()
+        sut?.game()
         
         // then
-        XCTAssertEqual(sut?.user.score, 1)
+        let userScore = sut?.user.score.drawCount
+        let computerScore = sut?.computer.score.drawCount
+        XCTAssertEqual(userScore, 1)
+        XCTAssertEqual(computerScore, 1)
+    }
+    
+    // 유저가 이길 때
+    func test_userWin() throws {
+        // given
+        sut = Game(user: User(hand: .paper), computer: User(hand: .rock))
+        
+        // when
+        sut?.game()
+        
+        // then
+        let userScore = sut?.user.score.winCount
+        let computerScore = sut?.computer.score.loseCount
+        XCTAssertEqual(userScore, 1)
+        XCTAssertEqual(computerScore, 1)
+    }
+    
+    // 컴퓨터가 이길 때
+    func test_computerWin() throws {
+        // given
+        sut = Game(user: User(hand: .scissor), computer: User(hand: .rock))
+        
+        // when
+        sut?.game()
+        
+        // then
+        let userScore = sut?.user.score.loseCount
+        let computerScore = sut?.computer.score.winCount
+        XCTAssertEqual(userScore, 1)
+        XCTAssertEqual(computerScore, 1)
+    }
+    
+    // 랜덤
+    func test_random() throws {
+        // given
+        let randomUserHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
+        let randomComputerHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
+        sut = Game(user: User(hand: randomUserHand),
+                   computer: User(hand: randomComputerHand))
+        
+        // when
+        sut?.game()
+        
+        // then
+        let userHand = sut?.user.hand.description
+        let computerHand = sut?.computer.hand.description
+        
+        let win = sut?.user.score.winCount
+        let lose = sut?.user.score.loseCount
+        let draw = sut?.user.score.drawCount
+        print(">>>>>>>>>>>RANDOM TEST>>>>>>>>>>>>>>>>>>")
+        print("| userHand: \(userHand!)", "computerHand: \(computerHand!) |")
+        print("| user Win: \(win!) \t|\n",
+              "| user Lose: \(lose!)\t |\n",
+              "| user Draw:\(draw!)\t |")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    }
+    
+    func test_nextGame(sut: Game) {
+        // given
+        let randomUserHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
+        let randomComputerHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
+        
+        let user = sut.user
+        let computer = sut.computer
+        let userWin = user.score.winCount
+        let userLose = user.score.loseCount
+        let userDraw = user.score.drawCount
+        let computerWin = computer.score.winCount
+        let computerLose = computer.score.loseCount
+        let computerDraw = computer.score.drawCount
+
+        // when
+        sut.nextGame()
+        
+        // then
+        let nextUserWin = user.score.winCount
+        let nextUserLose = user.score.loseCount
+        let nextUserDraw = user.score.drawCount
+        let nextComputerWin = computer.score.winCount
+        let nextComputerLose = computer.score.loseCount
+        let nextComputerDraw = computer.score.drawCount
+        if sut.draw() == true {
+            XCTAssertEqual(userDraw + 1, nextUserDraw)
+            XCTAssertEqual(computerDraw + 1, nextComputerDraw)
+        } else if sut.userWin() == true {
+            XCTAssertEqual(userWin + 1, nextUserWin)
+            XCTAssertEqual(computerLose + 1, nextComputerLose)
+        } else if sut.userLose() == true {
+            XCTAssertEqual(userLose + 1, nextUserLose)
+            XCTAssertEqual(computerWin + 1, nextComputerWin)
+        }
+    }
+    
+    func test_threeGame() throws {
+        // given
+        let randomUserHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
+        let randomComputerHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
+        sut = Game(user: User(hand: randomUserHand),
+                         computer: User(hand: randomComputerHand))
+        guard let user = sut?.user else { return }
+        guard let computer = sut?.computer else { return }
+        
+        // when
+        repeat {
+            test_nextGame(sut: sut!)
+        } while user.score.winCount < 3
+        && computer.score.winCount < 3
+        
+        // then
+        let userWin = user.score.winCount
+        let computerWin = computer.score.winCount
+        
+        if user.score.winCount == 3 {
+            XCTAssertEqual(userWin, 3)
+            print(">>>>>>> USER WIN")
+        } else {
+            XCTAssertEqual(computerWin, 3)
+            print(">>>>>>> COMPUTER WIN")
+        }
+    }
+    
+    func test_resetGame() throws {
+        // given
+        try! test_threeGame()
+        
+        if sut!.user.score.winCount > sut!.computer.score.winCount {
+            XCTAssertEqual(sut?.user.score.winCount, 3)
+        } else {
+            XCTAssertEqual(sut?.computer.score.winCount, 3)
+        }
+        
+        // when
+        sut?.resetGame()
+        
+        // then
+        XCTAssertEqual(sut?.user.score.drawCount, 0)
+        XCTAssertEqual(sut?.user.score.winCount, 0)
+        XCTAssertEqual(sut?.user.score.loseCount, 0)
+        XCTAssertEqual(sut?.computer.score.drawCount, 0)
+        XCTAssertEqual(sut?.computer.score.winCount, 0)
+        XCTAssertEqual(sut?.computer.score.loseCount, 0)
     }
 
 }

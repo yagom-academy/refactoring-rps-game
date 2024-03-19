@@ -16,11 +16,71 @@ import Foundation
 /// 어느 한 쪽이 최종 승리하면 얼럿을 통해 승자를 표시하고 게임을 초기화합니다
 ///
 
-final class User {
-    var score: Int
+struct Score {
+    var winCount: Int
+    var loseCount: Int
+    var drawCount: Int
     
-    init(score: Int = 0) {
+    init(winCount: Int = 0,
+         loseCount: Int = 0,
+         drawCount: Int = 0) {
+        self.winCount = winCount
+        self.loseCount = loseCount
+        self.drawCount = drawCount
+    }
+    
+    mutating func win() {
+        self.winCount += 1
+    }
+    mutating func lose() {
+        self.loseCount += 1
+    }
+    mutating func draw() {
+        self.drawCount += 1
+    }
+}
+
+enum Hand: CaseIterable {
+    case paper, rock, scissor
+    
+    var description: String {
+        switch self {
+        case .paper: return "🖐️"
+        case .rock: return "✊"
+        case .scissor: return "✌️"
+        }
+    }
+}
+
+final class User {
+    var score: Score
+    var hand: Hand
+    
+    init(score: Score = Score(),
+         hand: Hand) {
         self.score = score
+        self.hand = hand
+    }
+    
+    func winGame() {
+        score.win()
+    }
+    func loseGame() {
+        score.lose()
+    }
+    func drawGame() {
+        score.draw()
+    }
+    
+    func changeHand() {
+        let randomHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
+        hand = randomHand
+    }
+    
+    func reset() {
+        let randomHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
+        score = .init()
+        hand = randomHand
     }
 }
 
@@ -33,11 +93,60 @@ final class Game {
         self.computer = computer
     }
     
-    func userWin(){
-        user.score += 1
+    func nextGame() {
+        user.changeHand()
+        computer.changeHand()
+        game()
     }
     
-    func computerWin(){
-        user.score += 1
+    func game() {
+        if ((user.hand == .paper &&
+           computer.hand == .rock) ||
+            (user.hand == .rock &&
+           computer.hand == .scissor) ||
+            (user.hand == .scissor &&
+           computer.hand == .paper)) {
+            user.winGame()
+            computer.loseGame()
+        }
+        else if ((user.hand == .paper &&
+                computer.hand == .scissor) ||
+                 (user.hand == .rock &&
+                computer.hand == .paper) ||
+                 (user.hand == .scissor &&
+                computer.hand == .rock)) {
+            computer.winGame()
+            user.loseGame()
+        } else {
+            computer.drawGame()
+            user.drawGame()
+        }
+    }
+    
+    func userWin() -> Bool {
+        return ((user.hand == .paper &&
+                 computer.hand == .rock) ||
+                  (user.hand == .rock &&
+                 computer.hand == .scissor) ||
+                  (user.hand == .scissor &&
+                 computer.hand == .paper))
+    }
+    
+    func userLose() -> Bool {
+        return ((user.hand == .paper &&
+                 computer.hand == .scissor) ||
+                  (user.hand == .rock &&
+                 computer.hand == .paper) ||
+                  (user.hand == .scissor &&
+                 computer.hand == .rock))
+    }
+    
+    func draw() -> Bool {
+        return !(userWin()||userLose())
+    }
+    
+    func resetGame() {
+        user.reset()
+        computer.reset()
     }
 }
