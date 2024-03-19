@@ -6,18 +6,6 @@
 
 import UIKit
 
-enum Hand: String {
-    case paper = "🖐️"
-    case rock = "✊"
-    case scissor = "✌️"
-}
-
-enum RPSResult: String {
-    case win
-    case draw
-    case lose
-}
-
 class GameView: UIView {
 
     private let computerHandLabel: UILabel = UILabel()

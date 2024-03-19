@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A7A432AD2BA9628300CD85B9 /* RPSCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A432AC2BA9628300CD85B9 /* RPSCalculator.swift */; };
-		A7A432B52BA963F100CD85B9 /* RockPaperScissorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A432B42BA963F100CD85B9 /* RockPaperScissorsTests.swift */; };
+		A7A432B52BA963F100CD85B9 /* RPSCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A432B42BA963F100CD85B9 /* RPSCalculatorTests.swift */; };
 		A7A432BB2BA9642300CD85B9 /* RPSCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A432AC2BA9628300CD85B9 /* RPSCalculator.swift */; };
 		A7A432BC2BA9647F00CD85B9 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78484632B6A32E500FBF8B4 /* GameView.swift */; };
 		C784841D2B5E48E300FBF8B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784841C2B5E48E300FBF8B4 /* AppDelegate.swift */; };
@@ -33,7 +33,7 @@
 /* Begin PBXFileReference section */
 		A7A432AC2BA9628300CD85B9 /* RPSCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSCalculator.swift; sourceTree = "<group>"; };
 		A7A432B22BA963F100CD85B9 /* RockPaperScissorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RockPaperScissorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A7A432B42BA963F100CD85B9 /* RockPaperScissorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RockPaperScissorsTests.swift; sourceTree = "<group>"; };
+		A7A432B42BA963F100CD85B9 /* RPSCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSCalculatorTests.swift; sourceTree = "<group>"; };
 		C78484192B5E48E300FBF8B4 /* RockPaperScissors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RockPaperScissors.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C784841C2B5E48E300FBF8B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C784841E2B5E48E300FBF8B4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,7 +66,7 @@
 		A7A432B32BA963F100CD85B9 /* RockPaperScissorsTests */ = {
 			isa = PBXGroup;
 			children = (
-				A7A432B42BA963F100CD85B9 /* RockPaperScissorsTests.swift */,
+				A7A432B42BA963F100CD85B9 /* RPSCalculatorTests.swift */,
 			);
 			path = RockPaperScissorsTests;
 			sourceTree = "<group>";
@@ -206,7 +206,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7A432B52BA963F100CD85B9 /* RockPaperScissorsTests.swift in Sources */,
+				A7A432B52BA963F100CD85B9 /* RPSCalculatorTests.swift in Sources */,
 				A7A432BC2BA9647F00CD85B9 /* GameView.swift in Sources */,
 				A7A432BB2BA9642300CD85B9 /* RPSCalculator.swift in Sources */,
 			);
