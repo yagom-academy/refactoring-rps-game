@@ -129,4 +129,47 @@ final class UpDownGameUITests: XCTestCase {
         // then
         XCTAssertEqual(result, MatchResult.draw)
     }
+    
+    func test_내가먼저_3판을이긴경우_삼세판이기기() {
+        // given
+        var score = GameScore()
+        
+        // when
+        score.win = 3
+        score.lose = 2
+        
+        let result = sut.checkWinLossState(score: score)
+        
+        // then
+        XCTAssertEqual(result, MatchResult.win)
+    }
+    
+    func test_내가먼저_3판을진경우_삼세판이기기() {
+        // given
+        var score = GameScore()
+        
+        // when
+        score.win = 2
+        score.lose = 3
+        
+        let result = sut.checkWinLossState(score: score)
+        
+        // then
+        XCTAssertEqual(result, MatchResult.lose)
+    }
+    
+    
+    func test_아직_3판을이긴상황이없는경우_삼세판비기기() {
+        // given
+        var score = GameScore()
+        
+        // when
+        score.win = 2
+        score.lose = 2
+        
+        let result = sut.checkWinLossState(score: score)
+        
+        // then
+        XCTAssertEqual(result, MatchResult.draw)
+    }
 }
