@@ -165,4 +165,74 @@ final class UpDownGameUITests: XCTestCase {
         // then
         XCTAssertEqual(result, MatchResult.draw)
     }
+    
+    func test_playGame이_승리시_winscore를1올려주는지() {
+        // given
+        sut.playGame(myAction: .paper, opponentAction: .rock)
+        
+        // result
+        let result = sut.score.win
+        
+        // then
+        XCTAssertEqual(result, 1)
+    }
+    
+    func test_playGame이_패배시_losescore를1올려주는지() {
+        // given
+        sut.playGame(myAction: .sissor, opponentAction: .rock)
+        
+        // result
+        let result = sut.score.lose
+        
+        // then
+        XCTAssertEqual(result, 1)
+    }
+    
+    func test_playGame이_비길시_drawscore를1올려주는지() {
+        // given
+        sut.playGame(myAction: .rock, opponentAction: .rock)
+        
+        // result
+        let result = sut.score.draw
+        
+        // then
+        XCTAssertEqual(result, 1)
+    }
+    
+    func test_playGame이_승리했을때_gameState를_done으로변경하는지() {
+        // given
+        sut.score.win = 2
+        
+        // result
+        sut.playGame(myAction: .rock, opponentAction: .sissor)
+        let result = sut.gameState
+        
+        // then
+        XCTAssertEqual(result, .done)
+    }
+    
+    func test_playGame이_패배했을때_gameState를_done으로변경하는지() {
+        // given
+        sut.score.lose = 2
+        
+        // result
+        sut.playGame(myAction: .rock, opponentAction: .paper)
+        let result = sut.gameState
+        
+        // then
+        XCTAssertEqual(result, .done)
+    }
+    
+    func test_playGame이_게임중일때_gameState를_playing으로유지하는지() {
+        // given
+        sut.score.win = 2
+        sut.score.lose = 2
+        
+        // result
+        sut.playGame(myAction: .rock, opponentAction: .rock)
+        let result = sut.gameState
+        
+        // then
+        XCTAssertEqual(result, .playing)
+    }
 }
