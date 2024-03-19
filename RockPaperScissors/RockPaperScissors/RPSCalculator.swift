@@ -7,6 +7,18 @@
 
 import Foundation
 
+enum Hand: String {
+    case paper = "🖐️"
+    case rock = "✊"
+    case scissor = "✌️"
+}
+
+enum RPSResult: String {
+    case win
+    case draw
+    case lose
+}
+
 private protocol RPSStrategy {
     func calculate(oppnentHand: Hand) -> RPSResult
 }
@@ -50,13 +62,18 @@ private struct PaperStrategy: RPSStrategy {
     }
 }
 
-enum Hand: String {
-    case paper = "🖐️"
-    case rock = "✊"
-    case scissor = "✌️"
+protocol RPSCalculator {
+    func calculate(_ myHand: Hand, _ opponentHand: Hand) -> RPSResult
+}
+
+struct RPSCalculatorImpl: RPSCalculator {
+    func calculate(_ myHand: Hand, _ opponentHand: Hand) -> RPSResult {
+        rpsStrategy(myHand)
+            .calculate(oppnentHand: opponentHand)
+    }
     
-    private var strategy: RPSStrategy {
-        switch self {
+    private func rpsStrategy(_ hand: Hand) -> RPSStrategy {
+        switch hand {
         case .paper:
             PaperStrategy()
         case .rock:
@@ -64,25 +81,5 @@ enum Hand: String {
         case .scissor:
             ScissorStrategy()
         }
-    }
-    
-    func calculate(opponentHand: Hand) -> RPSResult {
-        strategy.calculate(oppnentHand: opponentHand)
-    }
-}
-
-enum RPSResult: String {
-    case win
-    case draw
-    case lose
-}
-
-protocol RPSCalculator {
-    func calculate(_ myHand: Hand, _ opponentHand: Hand) -> RPSResult
-}
-
-struct RPSCalculatorImpl: RPSCalculator {
-    func calculate(_ myHand: Hand, _ opponentHand: Hand) -> RPSResult {
-        myHand.calculate(opponentHand: opponentHand)
     }
 }
