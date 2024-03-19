@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum MatchResult {
-    case win, lose, draw
+enum MatchResult: Int {
+    case draw = 0, win, lose
 }

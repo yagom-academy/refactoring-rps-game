@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum Actions {
-    case rock, paper, sissor
+enum Actions: Int {
+    case rock = 0, paper, sissor
 }
