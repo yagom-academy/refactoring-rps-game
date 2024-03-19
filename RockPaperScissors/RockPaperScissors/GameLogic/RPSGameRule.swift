@@ -20,6 +20,17 @@ class RPSGameRule {
     }
     
     func checkWinLossState(score: GameScore) -> MatchResult {
-        return .draw
+        
+        if score.win == 3 {
+            return .win
+        }
+        
+        else if score.lose == 3 {
+            return .lose
+        }
+        
+        else {
+            return .draw
+        }
     }
 }
