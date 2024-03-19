@@ -8,17 +8,19 @@
 import Foundation
 
 struct GameScore {
-    var win = 0
-    var draw = 0
-    var lose = 0
+    var targetScore: Int
+    
+    var win: Int = 0
+    var draw: Int = 0
+    var lose: Int = 0
     
     var matchResult: MatchResult {
         get {
-            if win == 3 {
+            if win == targetScore {
                 return MatchResult.win
             }
             
-            else if lose == 3 {
+            else if lose == targetScore {
                 return MatchResult.lose
             }
             
