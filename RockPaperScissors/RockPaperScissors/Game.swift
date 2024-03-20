@@ -63,6 +63,10 @@ enum Hand: CaseIterable {
     }
 }
 
+protocol Playable {
+    
+}
+
 final class User {
     var score: Score
     var hand: Hand

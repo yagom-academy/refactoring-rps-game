@@ -13,7 +13,7 @@ class GameView: UIView {
     private let resultLabel: UILabel = UILabel()
     private let currentWinLoseLabel: UILabel = UILabel()
     
-    private let game: Game
+    //private let game: Game
     
     @objc private func touchUpNextButton() {
         
@@ -109,8 +109,7 @@ class GameView: UIView {
         ])
     }
     
-    init(game: Game) {
-        self.game = game
+    init() {
         super.init(frame: .zero)
         initialSetup()
         layViews()
