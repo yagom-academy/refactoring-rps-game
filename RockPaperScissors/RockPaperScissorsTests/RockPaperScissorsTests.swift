@@ -177,14 +177,17 @@ final class RockPaperScissorsTests: XCTestCase {
         sut?.game()
         
         // then
-        let userHand = sut?.user.hand.description
-        let computerHand = sut?.computer.hand.description
+        guard let userHand = sut?.user.hand?.description,
+              let computerHand = sut?.computer.hand?.description else {
+            return
+        }
+        
         
         let win = sut?.user.score.winCount
         let lose = sut?.user.score.loseCount
         let draw = sut?.user.score.drawCount
         print(">>>>>>>>>>>RANDOM TEST>>>>>>>>>>>>>>>>>>")
-        print("| userHand: \(userHand!)", "computerHand: \(computerHand!) |")
+        print("| userHand: \(userHand)", "computerHand: \(computerHand) |")
         print("| user Win: \(win!) \t|\n",
               "| user Lose: \(lose!)\t |\n",
               "| user Draw:\(draw!)\t |")

@@ -16,27 +16,48 @@ import Foundation
 /// 어느 한 쪽이 최종 승리하면 얼럿을 통해 승자를 표시하고 게임을 초기화합니다
 ///
 
-struct Score {
-    var winCount: Int
-    var loseCount: Int
-    var drawCount: Int
+protocol GameScore {
+    var winCount: Int { get }
+    var loseCount: Int { get }
+    var drawCount: Int { get }
+    mutating func win()
+    mutating func lose()
+    mutating func draw()
+}
+
+struct Score: GameScore {
+    private var _winCount: Int
+    private var _loseCount: Int
+    private var _drawCount: Int
     
-    init(winCount: Int = 0,
-         loseCount: Int = 0,
-         drawCount: Int = 0) {
-        self.winCount = winCount
-        self.loseCount = loseCount
-        self.drawCount = drawCount
+    var winCount: Int {
+        return _winCount
+    }
+    
+    var loseCount: Int {
+        return _loseCount
+    }
+    
+    var drawCount: Int {
+        return _drawCount
+    }
+    
+    init(_winCount: Int = 0,
+         _loseCount: Int = 0,
+         _drawCount: Int = 0) {
+        self._winCount = _winCount
+        self._loseCount = _loseCount
+        self._drawCount = _drawCount
     }
     
     mutating func win() {
-        self.winCount += 1
+        self._winCount += 1
     }
     mutating func lose() {
-        self.loseCount += 1
+        self._loseCount += 1
     }
     mutating func draw() {
-        self.drawCount += 1
+        self._drawCount += 1
     }
 }
 
@@ -64,15 +85,23 @@ enum Hand: CaseIterable {
 }
 
 protocol Playable {
+    var score: GameScore { get }
+    var hand: Hand? { get }
     
+    func changeHand()
+    func winGame()
+    func loseGame()
+    func drawGame()
+    func reset()
 }
 
-final class User {
-    var score: Score
-    var hand: Hand
+
+final class User: Playable {
+    var score: GameScore
+    var hand: Hand?
     
-    init(score: Score = Score(),
-         hand: Hand) {
+    init(score: GameScore = Score(),
+         hand: Hand? = nil) {
         self.score = score
         self.hand = hand
     }
@@ -88,18 +117,18 @@ final class User {
     }
     
     func changeHand() {
-        hand = hand.randomHand
+        hand = hand?.randomHand
     }
     
     func reset() {
-        score = .init()
-        changeHand()
+        score = Score()
+        hand = nil
     }
 }
 
 final class Game {
-    let user: User
-    let computer: User
+    let user: Playable
+    let computer: Playable
     
     init(user: User, 
          computer: User) {
