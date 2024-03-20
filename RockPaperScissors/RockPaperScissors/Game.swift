@@ -7,19 +7,11 @@
 
 import Foundation
 
-///
-/// 사용자와 컴퓨터의 가위 바위 보 게임입니다
-/// 사용자가 패를 선택하면 컴퓨터의 패는 임의의 패로 지정됩니다
-/// 현재 승/무/패 기록은 화면 중앙에 표시합니다
-/// 승/무/패 기록은 사용자 기준 승/무/패를 나타냅니다
-/// 삼세판 선승제로, 세 판을 먼저 이기는 쪽이 승리합니다
-/// 어느 한 쪽이 최종 승리하면 얼럿을 통해 승자를 표시하고 게임을 초기화합니다
-///
-
 protocol GameScore {
     var winCount: Int { get }
     var loseCount: Int { get }
     var drawCount: Int { get }
+    
     mutating func win()
     mutating func lose()
     mutating func draw()
@@ -86,19 +78,23 @@ enum Hand: CaseIterable {
 
 protocol Playable {
     var score: GameScore { get }
-    var hand: Hand? { get }
+    var currentHand: Hand? { get }
     
     func changeHand()
     func winGame()
     func loseGame()
     func drawGame()
-    func reset()
+    func clear()
 }
 
 
 final class User: Playable {
+    private var hand: Hand?
     var score: GameScore
-    var hand: Hand?
+    
+    var currentHand: Hand? {
+        return hand
+    }
     
     init(score: GameScore = Score(),
          hand: Hand? = nil) {
@@ -120,7 +116,7 @@ final class User: Playable {
         hand = hand?.randomHand
     }
     
-    func reset() {
+    func clear() {
         score = Score()
         hand = nil
     }
@@ -137,49 +133,57 @@ final class Game {
     }
     
     func nextGame() {
-        user.changeHand()
-        computer.changeHand()
-        game()
+        setGame()
+        play()
     }
     
-    func game() {
-        if userWin() {
+    func play() {
+        guard let userHand = user.currentHand,
+              let computerHand = computer.currentHand else {
+            return
+        }
+        
+        switch judge(userHand, computerHand) {
+        case .userWin:
             user.winGame()
             computer.loseGame()
-        }
-        else if userLose() {
-            computer.winGame()
+        case .userLose:
             user.loseGame()
-        } else {
-            computer.drawGame()
+            computer.winGame()
+        case .draw:
             user.drawGame()
+            computer.drawGame()
+        }
+    }
+
+    func judge(_ userHand: Hand, _ computerHand: Hand) -> Judge {
+        guard let userIndex = Hand.allCases.firstIndex(of: userHand),
+              let computerIndex = Hand.allCases.firstIndex(of: computerHand) else {
+            fatalError()
+        }
+        
+        let handAllCaseCount = Hand.allCases.count
+        
+        if userIndex == computerIndex {
+            return .draw
+        } else if (userIndex + 1) % handAllCaseCount == computerIndex {
+            return .userWin
+        } else {
+            return .userLose
         }
     }
     
-    func userWin() -> Bool {
-        return ((user.hand == .paper &&
-                 computer.hand == .rock) ||
-                  (user.hand == .rock &&
-                 computer.hand == .scissor) ||
-                  (user.hand == .scissor &&
-                 computer.hand == .paper))
+    func reset() {
+        user.clear()
+        computer.clear()
     }
     
-    func userLose() -> Bool {
-        return ((user.hand == .paper &&
-                 computer.hand == .scissor) ||
-                  (user.hand == .rock &&
-                 computer.hand == .paper) ||
-                  (user.hand == .scissor &&
-                 computer.hand == .rock))
+    private func setGame() {
+        user.changeHand()
+        computer.changeHand()
     }
     
-    func draw() -> Bool {
-        return !(userWin()||userLose())
-    }
-    
-    func resetGame() {
-        user.reset()
-        computer.reset()
+    enum Judge {
+        case userWin, userLose, draw
     }
 }
