@@ -21,10 +21,11 @@ import XCTest
 final class RockPaperScissorsTests: XCTestCase {
     var sut: Game?
 
-    // 비겼을 때
-    func test_draw() throws {
+    // MARK: 보로 비겼을 때
+    func test_paper_draw() throws {
         // given
-        sut = Game(user: User(hand: .paper), computer: User(hand: .paper))
+        sut = Game(user: User(hand: .paper), 
+                   computer: User(hand: .paper))
         
         // when
         sut?.game()
@@ -36,10 +37,43 @@ final class RockPaperScissorsTests: XCTestCase {
         XCTAssertEqual(computerScore, 1)
     }
     
-    // 유저가 이길 때
-    func test_userWin() throws {
+    // MARK: 가위로 비겼을 때
+    func test_scissor_draw() throws {
         // given
-        sut = Game(user: User(hand: .paper), computer: User(hand: .rock))
+        sut = Game(user: User(hand: .scissor),
+                   computer: User(hand: .scissor))
+        
+        // when
+        sut?.game()
+        
+        // then
+        let userScore = sut?.user.score.drawCount
+        let computerScore = sut?.computer.score.drawCount
+        XCTAssertEqual(userScore, 1)
+        XCTAssertEqual(computerScore, 1)
+    }
+    
+    // MARK: 주먹으로 비겼을 때
+    func test_rock_draw() throws {
+        // given
+        sut = Game(user: User(hand: .rock),
+                   computer: User(hand: .rock))
+        
+        // when
+        sut?.game()
+        
+        // then
+        let userScore = sut?.user.score.drawCount
+        let computerScore = sut?.computer.score.drawCount
+        XCTAssertEqual(userScore, 1)
+        XCTAssertEqual(computerScore, 1)
+    }
+    
+    // MARK: 유저가 보를 내서 이길 때
+    func test_paper_user_win() throws {
+        // given
+        sut = Game(user: User(hand: .paper), 
+                   computer: User(hand: .rock))
         
         // when
         sut?.game()
@@ -51,10 +85,43 @@ final class RockPaperScissorsTests: XCTestCase {
         XCTAssertEqual(computerScore, 1)
     }
     
-    // 컴퓨터가 이길 때
-    func test_computerWin() throws {
+    // MARK: 유저가 가위를 내서 이길 때
+    func test_scissor_user_win() throws {
         // given
-        sut = Game(user: User(hand: .scissor), computer: User(hand: .rock))
+        sut = Game(user: User(hand: .scissor),
+                   computer: User(hand: .paper))
+        
+        // when
+        sut?.game()
+        
+        // then
+        let userScore = sut?.user.score.winCount
+        let computerScore = sut?.computer.score.loseCount
+        XCTAssertEqual(userScore, 1)
+        XCTAssertEqual(computerScore, 1)
+    }
+    
+    // MARK: 유저가 바위를 내서 이길 때
+    func test_rock_user_win() throws {
+        // given
+        sut = Game(user: User(hand: .rock),
+                   computer: User(hand: .scissor))
+        
+        // when
+        sut?.game()
+        
+        // then
+        let userScore = sut?.user.score.winCount
+        let computerScore = sut?.computer.score.loseCount
+        XCTAssertEqual(userScore, 1)
+        XCTAssertEqual(computerScore, 1)
+    }
+    
+    // MARK: 컴퓨터가 보를 내서 이길 때
+    func test_paper_computer_win() throws {
+        // given
+        sut = Game(user: User(hand: .rock),
+                   computer: User(hand: .paper))
         
         // when
         sut?.game()
@@ -66,7 +133,39 @@ final class RockPaperScissorsTests: XCTestCase {
         XCTAssertEqual(computerScore, 1)
     }
     
-    // 랜덤
+    // MARK: 컴퓨터가 가위를 내서 이길 때
+    func test_scissor_computer_win() throws {
+        // given
+        sut = Game(user: User(hand: .paper),
+                   computer: User(hand: .scissor))
+        
+        // when
+        sut?.game()
+        
+        // then
+        let userScore = sut?.user.score.loseCount
+        let computerScore = sut?.computer.score.winCount
+        XCTAssertEqual(userScore, 1)
+        XCTAssertEqual(computerScore, 1)
+    }
+    
+    // MARK: 컴퓨터가 바위를 내서 이길 때
+    func test_rock_computer_win() throws {
+        // given
+        sut = Game(user: User(hand: .scissor),
+                   computer: User(hand: .rock))
+        
+        // when
+        sut?.game()
+        
+        // then
+        let userScore = sut?.user.score.loseCount
+        let computerScore = sut?.computer.score.winCount
+        XCTAssertEqual(userScore, 1)
+        XCTAssertEqual(computerScore, 1)
+    }
+    
+    // MARK: 랜덤 Hand 테스트
     func test_random() throws {
         // given
         let randomUserHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
@@ -92,6 +191,7 @@ final class RockPaperScissorsTests: XCTestCase {
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     }
     
+    // MARK: nextGame 메서드 테스트
     func test_nextGame(sut: Game) {
         // given
         let randomUserHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
@@ -128,6 +228,7 @@ final class RockPaperScissorsTests: XCTestCase {
         }
     }
     
+    // MARK: 삼세판 메서드 테스트
     func test_threeGame() throws {
         // given
         let randomUserHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
@@ -147,16 +248,18 @@ final class RockPaperScissorsTests: XCTestCase {
         let userWin = user.score.winCount
         let computerWin = computer.score.winCount
         
+        // User가 이김
         if user.score.winCount == 3 {
             XCTAssertEqual(userWin, 3)
-            print(">>>>>>> USER WIN")
-        } else {
+        }
+        // Computer가 이김
+        else {
             XCTAssertEqual(computerWin, 3)
-            print(">>>>>>> COMPUTER WIN")
         }
     }
     
-    func test_resetGame() throws {
+    // MARK: rest 메서드 테스트
+    func test_reset() throws {
         // given
         try! test_threeGame()
         

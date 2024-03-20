@@ -50,6 +50,17 @@ enum Hand: CaseIterable {
         case .scissor: return "✌️"
         }
     }
+    
+    var randomHand: Hand {
+        return random()
+    }
+    
+    private func random() -> Hand {
+        guard let randomUserHand = Hand.allCases.randomElement() else {
+            fatalError(">>> Error: random() in Hand")
+        }
+        return randomUserHand
+    }
 }
 
 final class User {
@@ -73,14 +84,12 @@ final class User {
     }
     
     func changeHand() {
-        let randomHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
-        hand = randomHand
+        hand = hand.randomHand
     }
     
     func reset() {
-        let randomHand = Hand.allCases[Int.random(in: 0..<Hand.allCases.count)]
         score = .init()
-        hand = randomHand
+        changeHand()
     }
 }
 
@@ -88,7 +97,8 @@ final class Game {
     let user: User
     let computer: User
     
-    init(user: User, computer: User) {
+    init(user: User, 
+         computer: User) {
         self.user = user
         self.computer = computer
     }
@@ -100,21 +110,11 @@ final class Game {
     }
     
     func game() {
-        if ((user.hand == .paper &&
-           computer.hand == .rock) ||
-            (user.hand == .rock &&
-           computer.hand == .scissor) ||
-            (user.hand == .scissor &&
-           computer.hand == .paper)) {
+        if userWin() {
             user.winGame()
             computer.loseGame()
         }
-        else if ((user.hand == .paper &&
-                computer.hand == .scissor) ||
-                 (user.hand == .rock &&
-                computer.hand == .paper) ||
-                 (user.hand == .scissor &&
-                computer.hand == .rock)) {
+        else if userLose() {
             computer.winGame()
             user.loseGame()
         } else {
