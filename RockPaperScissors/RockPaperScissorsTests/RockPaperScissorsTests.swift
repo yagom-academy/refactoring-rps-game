@@ -9,7 +9,7 @@ import XCTest
 
 @testable import RockPaperScissors
 
-final class UpDownGameUITests: XCTestCase {
+final class RockPaperScissorsTests: XCTestCase {
     var sut: RPSGameRule!
     
     override func setUpWithError() throws {
@@ -28,7 +28,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .rock
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.draw)
@@ -40,7 +40,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .sissor
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.win)
@@ -52,7 +52,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .paper
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.lose)
@@ -64,7 +64,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .rock
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.lose)
@@ -76,7 +76,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .sissor
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.draw)
@@ -88,7 +88,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .paper
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.win)
@@ -100,7 +100,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .rock
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.win)
@@ -112,7 +112,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .sissor
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.lose)
@@ -124,7 +124,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .paper
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.draw)

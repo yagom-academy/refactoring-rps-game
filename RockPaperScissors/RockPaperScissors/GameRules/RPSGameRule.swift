@@ -7,28 +7,23 @@
 
 import Foundation
 
-protocol GameRule {
-    var score: GameScore { get }
-    var gameState: GameState { get }
-    func match(myAction: Actions, opponentAction: Actions) -> MatchResult
-}
 
 final class RPSGameRule: GameRule {
     init(targetScore: Int) {
         score = GameScore(targetScore: targetScore)
-        gameState = .playing
     }
     
+    var isMyTurn: Bool? = nil
     var score: GameScore
-    var gameState: GameState
+    var gameState: GameState = .playing
     
-    func match(myAction: Actions, opponentAction: Actions) -> MatchResult {
+    func matchRule(myAction: Actions, opponentAction: Actions) -> MatchResult {
         let result = (myAction.rawValue - opponentAction.rawValue + 3) % 3
         return MatchResult(rawValue: result)!
     }
     
     func playGame(myAction: Actions, opponentAction: Actions) {
-        let matchResult = match(myAction: myAction, opponentAction: opponentAction)
+        let matchResult = matchRule(myAction: myAction, opponentAction: opponentAction)
         
         switch matchResult {
         case .draw:
@@ -56,3 +51,5 @@ final class RPSGameRule: GameRule {
         score.draw += 1
     }
 }
+
+
