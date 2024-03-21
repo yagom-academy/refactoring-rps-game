@@ -10,6 +10,14 @@ import Foundation
 protocol Player {
     var score: Score { get set }
     var hand: Hand? { get set }
+    
+    mutating func selectHand()
+}
+
+extension Player {
+    mutating func selectHand() {
+        self.hand = Hand.allCases.randomElement()
+    }
 }
 
 struct User: Player {

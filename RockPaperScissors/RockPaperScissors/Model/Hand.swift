@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Hand: Equatable {
+enum Hand: Equatable, CaseIterable {
     case paper, rock, scissor
     
     var emoji: String {
