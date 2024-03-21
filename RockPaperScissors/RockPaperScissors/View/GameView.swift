@@ -6,7 +6,7 @@
 
 import UIKit
 
-class GameView: UIView {
+final class GameView: UIView {
 
     private let computerHandLabel: UILabel = UILabel()
     private let userHandLabel: UILabel = UILabel()

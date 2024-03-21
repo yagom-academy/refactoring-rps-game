@@ -6,9 +6,7 @@
 
 import UIKit
 
-class GameViewController: UIViewController {
-
-    
+final class GameViewController: UIViewController {
     override func loadView() {
         view = GameView()
     }
