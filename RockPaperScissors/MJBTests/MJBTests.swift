@@ -22,8 +22,20 @@ final class MJBTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         sut = nil
     }
+    
+    // 어떻게 작성해야하나?
+    func test_차례가_없으면_종료하기() {
+        // given
+        sut.isMyTurn = nil
+        
+        // when
+        sut.playGame(myAction: .paper, opponentAction: .rock)
+        
+        // then
+        
+    }
 
-    func test_양쪽에서_패를냈을때_묵_묵을_낸경우_비기기(){
+    func test_양쪽에서_패를냈을때_묵_묵을_낸경우_match비기기(){
         // given
         let myAction: Actions = .rock
         let yourAction: Actions = .rock
@@ -35,7 +47,7 @@ final class MJBTests: XCTestCase {
         XCTAssertEqual(result, MatchResult.draw)
     }
     
-    func test_양쪽에서_패를냈을때_묵_찌을_낸경우_이기기(){
+    func test_양쪽에서_패를냈을때_묵_찌을_낸경우_match이기기(){
         // given
         let myAction: Actions = .rock
         let yourAction: Actions = .sissor
@@ -47,7 +59,7 @@ final class MJBTests: XCTestCase {
         XCTAssertEqual(result, MatchResult.win)
     }
     
-    func test_양쪽에서_패를냈을때_묵_빠을_낸경우_지기(){
+    func test_양쪽에서_패를냈을때_묵_빠을_낸경우_match지기(){
         // given
         let myAction: Actions = .rock
         let yourAction: Actions = .paper
@@ -59,7 +71,7 @@ final class MJBTests: XCTestCase {
         XCTAssertEqual(result, MatchResult.lose)
     }
     
-    func test_양쪽에서_패를냈을때_찌_묵을_낸경우_지기(){
+    func test_양쪽에서_패를냈을때_찌_묵을_낸경우_match지기(){
         // given
         let myAction: Actions = .sissor
         let yourAction: Actions = .rock
@@ -71,7 +83,7 @@ final class MJBTests: XCTestCase {
         XCTAssertEqual(result, MatchResult.lose)
     }
     
-    func test_양쪽에서_패를냈을때_찌_찌을_낸경우_비기기(){
+    func test_양쪽에서_패를냈을때_찌_찌을_낸경우_match비기기(){
         // given
         let myAction: Actions = .sissor
         let yourAction: Actions = .sissor
@@ -83,7 +95,7 @@ final class MJBTests: XCTestCase {
         XCTAssertEqual(result, MatchResult.draw)
     }
     
-    func test_양쪽에서_패를냈을때_찌_빠을_낸경우_이기(){
+    func test_양쪽에서_패를냈을때_찌_빠을_낸경우_match이기(){
         // given
         let myAction: Actions = .sissor
         let yourAction: Actions = .paper
@@ -95,7 +107,7 @@ final class MJBTests: XCTestCase {
         XCTAssertEqual(result, MatchResult.win)
     }
     
-    func test_양쪽에서_패를냈을때_빠_묵을_낸경우_이기기(){
+    func test_양쪽에서_패를냈을때_빠_묵을_낸경우_match이기기(){
         // given
         let myAction: Actions = .paper
         let yourAction: Actions = .rock
@@ -107,7 +119,7 @@ final class MJBTests: XCTestCase {
         XCTAssertEqual(result, MatchResult.win)
     }
     
-    func test_양쪽에서_패를냈을때_빠_찌을_낸경우_지기(){
+    func test_양쪽에서_패를냈을때_빠_찌을_낸경우_match지기(){
         // given
         let myAction: Actions = .paper
         let yourAction: Actions = .sissor
@@ -119,7 +131,7 @@ final class MJBTests: XCTestCase {
         XCTAssertEqual(result, MatchResult.lose)
     }
     
-    func test_양쪽에서_패를냈을때_빠_빠을_낸경우_비기기(){
+    func test_양쪽에서_패를냈을때_빠_빠을_낸경우_match비기기(){
         // given
         let myAction: Actions = .paper
         let yourAction: Actions = .paper
@@ -239,8 +251,7 @@ final class MJBTests: XCTestCase {
         XCTAssertEqual(sut.gameStatus.gameResult, .lose)
     }
     
-    
-    func test_내차례에_같은손을내면_승리하기() {
+    func test_() {
         // given
         
         // when
