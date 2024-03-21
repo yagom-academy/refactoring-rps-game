@@ -8,6 +8,8 @@
 import Foundation
 
 class MJBGameRule : GameRule {
+    
+    
     var gameStatus: GameStatus
     var isMyTurn: Bool?
     
@@ -29,8 +31,8 @@ class MJBGameRule : GameRule {
       }
     }
     
-    func playGame(myAction: Actions, opponentAction: Actions) {
-        guard let isMyTurn else { return }
+    func playGame(myAction: Actions, opponentAction: Actions) -> GameResult? {
+        guard let isMyTurn else { return nil }
         
         let matchResult = matchRule(myAction: myAction, opponentAction: opponentAction)
         
@@ -38,8 +40,10 @@ class MJBGameRule : GameRule {
         case .draw:
             if isMyTurn {
                 gameStatus.applyMatchResult(matchResult: .win)
+                return .win
             } else {
                 gameStatus.applyMatchResult(matchResult: .lose)
+                return .lose
             }
             
         case .win:
@@ -48,5 +52,11 @@ class MJBGameRule : GameRule {
         case .lose:
             self.isMyTurn = false
         }
+        
+        return nil
+    }
+    
+    func resetGameStatue() {
+        gameStatus.reset()
     }
 }

@@ -170,7 +170,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_playGame이_승리시_winscore를1올려주는지() {
         // given
-        sut.playGame(myAction: .paper, opponentAction: .rock)
+        let _ = sut.playGame(myAction: .paper, opponentAction: .rock)
         
         // result
         let result = sut.gameStatus.score.win
@@ -181,7 +181,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_playGame이_패배시_losescore를1올려주는지() {
         // given
-        sut.playGame(myAction: .sissor, opponentAction: .rock)
+        let _ = sut.playGame(myAction: .sissor, opponentAction: .rock)
         
         // result
         let result = sut.gameStatus.score.lose
@@ -192,7 +192,7 @@ final class RockPaperScissorsTests: XCTestCase {
     
     func test_playGame이_비길시_drawscore를1올려주는지() {
         // given
-        sut.playGame(myAction: .rock, opponentAction: .rock)
+        let _ = sut.playGame(myAction: .rock, opponentAction: .rock)
         
         // result
         let result = sut.gameStatus.score.draw
@@ -206,7 +206,7 @@ final class RockPaperScissorsTests: XCTestCase {
         sut.gameStatus.score.win = 2
         
         // result
-        sut.playGame(myAction: .rock, opponentAction: .sissor)
+        let _ = sut.playGame(myAction: .rock, opponentAction: .sissor)
         let result = sut.gameStatus.gameResult
         
         // then
@@ -218,7 +218,7 @@ final class RockPaperScissorsTests: XCTestCase {
         sut.gameStatus.score.lose = 2
         
         // result
-        sut.playGame(myAction: .rock, opponentAction: .paper)
+        let _ = sut.playGame(myAction: .rock, opponentAction: .paper)
         let result = sut.gameStatus.gameResult
         
         // then
@@ -231,7 +231,7 @@ final class RockPaperScissorsTests: XCTestCase {
         sut.gameStatus.score.lose = 2
         
         // result
-        sut.playGame(myAction: .rock, opponentAction: .rock)
+        let _ = sut.playGame(myAction: .rock, opponentAction: .rock)
         let result = sut.gameStatus.gameResult
         
         // then

@@ -6,40 +6,76 @@
 
 import UIKit
 
-fileprivate enum Hand {
-    static let paper: String = "🖐️"
-    static let rock: String = "✊"
-    static let scissor: String = "✌️"
-}
-
 class GameView: UIView {
 
+    var gameRule: GameRule
+    var showAlert: (UIAlertController) -> Void
+    
     private let computerHandLabel: UILabel = UILabel()
     private let userHandLabel: UILabel = UILabel()
     private let resultLabel: UILabel = UILabel()
     private let currentWinLoseLabel: UILabel = UILabel()
     
+    private let winAlertController: UIAlertController = UIAlertController(title: "이겼어요", message: nil, preferredStyle: .alert)
+    private let loseAlertController: UIAlertController = UIAlertController(title: "졌어요", message: nil, preferredStyle: .alert)
     
     @objc private func touchUpNextButton() {
+        // 무작위로 my, commputer action 선택
+        guard let myAction = Actions.random(),
+              let computerAction = Actions.random() else { return }
         
+        userHandLabel.text = myAction.icon
+        computerHandLabel.text = computerAction.icon
+        
+        // game rule 적용 (play)
+        let playResult = gameRule.playGame(myAction: myAction, opponentAction: computerAction)
+        
+        // play result 확인
+        currentWinLoseLabel.text = "\(gameRule.gameStatus.score.win)승 \(gameRule.gameStatus.score.draw)무 \(gameRule.gameStatus.score.lose)패"
+        switch playResult {
+        case .draw:
+            resultLabel.text = "비겼어요"
+        case .win:
+            resultLabel.text = "이겼어요"
+        case .lose:
+            resultLabel.text = "졌어요"
+        default:
+            resultLabel.text = "ㅤㅤㅤㅤ "
+        }
+        
+        // 전체 game result에 따른 처리
+        let gameResult = gameRule.gameStatus.gameResult
+        switch gameResult {
+        case .win:
+            showAlert(winAlertController)
+            
+        case .lose:
+            showAlert(loseAlertController)
+
+        default:
+            return
+        }
     }
     
     @objc private func touchUpResetButton() {
-        
+        // game status 초기화
     }
     
     private func initialSetup() {
         backgroundColor = .white
         
-        computerHandLabel.text = Hand.paper
-        userHandLabel.text = Hand.paper
-        resultLabel.text = "이겼습니다!"
-        currentWinLoseLabel.text = "0승 0무 0패"
-        
         computerHandLabel.font = .systemFont(ofSize: 40)
         userHandLabel.font = .systemFont(ofSize: 40)
         resultLabel.font = .preferredFont(forTextStyle: .headline)
         currentWinLoseLabel.font = .preferredFont(forTextStyle: .largeTitle)
+        
+        let retryAlert = UIAlertAction(title: "다시하기", style: .default) { _ in
+            self.gameRule.resetGameStatue()
+            self.resetContents()
+        }
+        
+        winAlertController.addAction(retryAlert)
+        loseAlertController.addAction(retryAlert)
         
         [computerHandLabel, userHandLabel, resultLabel, currentWinLoseLabel].forEach { label in
             label.textColor = .black
@@ -47,7 +83,14 @@ class GameView: UIView {
         }
     }
     
-    private func layViews() {
+    private func resetContents() {
+        computerHandLabel.text = Actions.paper.icon
+        userHandLabel.text = Actions.paper.icon
+        resultLabel.text = " "
+        currentWinLoseLabel.text = "\(gameRule.gameStatus.score.win)승 \(gameRule.gameStatus.score.draw)무 \(gameRule.gameStatus.score.lose)패"
+    }
+    
+    private func setLayout() {
         
         let topClearView: UIView = UIView()
         topClearView.backgroundColor = .clear
@@ -114,10 +157,15 @@ class GameView: UIView {
         ])
     }
     
-    init() {
+    init(gameRule: GameRule, showAlert: @escaping (UIAlertController) -> Void) {
+        self.gameRule = gameRule
+        self.showAlert = showAlert
+        
         super.init(frame: .zero)
+        
         initialSetup()
-        layViews()
+        resetContents()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {

@@ -29,10 +29,24 @@ final class RPSGameRule: GameRule {
       }
     }
     
-    func playGame(myAction: Actions, opponentAction: Actions) {
+    func playGame(myAction: Actions, opponentAction: Actions) -> GameResult? {
         let matchResult = matchRule(myAction: myAction, opponentAction: opponentAction)
         gameStatus.applyMatchResult(matchResult: matchResult)
+        
+        switch matchResult {
+        case .draw:
+            return .draw
+        case .win:
+            return .win
+        case .lose:
+            return .lose
+        }
     }
+    
+    func resetGameStatue() {
+        gameStatus.reset()
+    }
+    
 }
 
 

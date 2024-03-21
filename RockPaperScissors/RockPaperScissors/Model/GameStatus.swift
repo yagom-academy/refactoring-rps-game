@@ -20,4 +20,11 @@ struct GameStatus {
         score.apply(matchResult: matchResult)
         gameResult.update(with: score)
     }
+    
+    mutating func reset() {
+        let targetScore = score.targetScore
+        
+        score = GameScore(targetScore: targetScore)
+        gameResult = GameResult.playing
+    }
 }

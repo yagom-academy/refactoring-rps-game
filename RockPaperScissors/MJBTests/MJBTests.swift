@@ -29,7 +29,7 @@ final class MJBTests: XCTestCase {
         sut.isMyTurn = nil
         
         // when
-        sut.playGame(myAction: .paper, opponentAction: .rock)
+        let _ = sut.playGame(myAction: .paper, opponentAction: .rock)
         
         // then
         
@@ -151,7 +151,7 @@ final class MJBTests: XCTestCase {
         
         
         // when
-        sut.playGame(myAction: myAction, opponentAction: yourAction)
+        let _ = sut.playGame(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(sut.gameStatus.gameResult, .win)
@@ -166,7 +166,7 @@ final class MJBTests: XCTestCase {
         let originScore = sut.gameStatus.score
         
         // when
-        sut.playGame(myAction: myAction, opponentAction: yourAction)
+        let _ = sut.playGame(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(sut.isMyTurn, true)
@@ -183,7 +183,7 @@ final class MJBTests: XCTestCase {
         let originScore = sut.gameStatus.score
         
         // when
-        sut.playGame(myAction: myAction, opponentAction: yourAction)
+        let _ = sut.playGame(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(sut.isMyTurn, true)
@@ -200,7 +200,7 @@ final class MJBTests: XCTestCase {
         let originScore = sut.gameStatus.score
         
         // when
-        sut.playGame(myAction: myAction, opponentAction: yourAction)
+        let _ = sut.playGame(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(sut.isMyTurn, false)
@@ -217,7 +217,7 @@ final class MJBTests: XCTestCase {
         let originScore = sut.gameStatus.score
         
         // when
-        sut.playGame(myAction: myAction, opponentAction: yourAction)
+        let _ = sut.playGame(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(sut.isMyTurn, false)
@@ -232,7 +232,7 @@ final class MJBTests: XCTestCase {
         let yourAction: Actions = .rock
         
         // when
-        sut.playGame(myAction: myAction, opponentAction: yourAction)
+        let _ = sut.playGame(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(sut.gameStatus.gameResult, .win)
@@ -245,7 +245,7 @@ final class MJBTests: XCTestCase {
         let yourAction: Actions = .rock
         
         // when
-        sut.playGame(myAction: myAction, opponentAction: yourAction)
+        let _ = sut.playGame(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(sut.gameStatus.gameResult, .lose)

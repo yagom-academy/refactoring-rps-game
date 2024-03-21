@@ -13,5 +13,7 @@ protocol GameRule {
     
     func matchRule(myAction: Actions, opponentAction: Actions) -> MatchResult
     
-    func playGame(myAction: Actions, opponentAction: Actions)
+    func playGame(myAction: Actions, opponentAction: Actions) -> GameResult?
+    
+    func resetGameStatue()
 }
