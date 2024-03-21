@@ -69,7 +69,7 @@ final class GameView: UIView {
         currentWinLoseLabel.text = "\(gameRule.gameStatus.score.win)승 \(gameRule.gameStatus.score.draw)무 \(gameRule.gameStatus.score.lose)패"
     }
     
-    private func updateLabels(myAction: Actions, computerAction: Actions, playResult: GameResult, status: GameStatus) {
+    private func updateLabels(myAction: Actions, computerAction: Actions, playResult: PlayResult, status: GameStatus) {
         userHandLabel.text = myAction.icon
         computerHandLabel.text = computerAction.icon
         currentWinLoseLabel.text = "\(status.score.win)승 \(status.score.draw)무 \(status.score.lose)패"
@@ -90,7 +90,7 @@ final class GameView: UIView {
         }
     }
     
-    private func getResultString(from playResult: GameResult) -> String {
+    private func getResultString(from playResult: PlayResult) -> String {
         switch playResult {
         case .draw:
             return "비겼어요"

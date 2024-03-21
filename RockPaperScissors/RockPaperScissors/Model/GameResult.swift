@@ -24,3 +24,5 @@ enum GameResult: Int {
         self = .playing
     }
 }
+
+typealias PlayResult = GameResult

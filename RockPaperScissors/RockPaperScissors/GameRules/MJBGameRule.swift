@@ -29,7 +29,7 @@ class MJBGameRule : GameRule {
       }
     }
     
-    func playGame(myAction: Actions, opponentAction: Actions) -> GameResult? {
+    func playGame(myAction: Actions, opponentAction: Actions) -> PlayResult? {
         guard let isMyTurn else { return nil }
         
         let matchResult = matchRule(myAction: myAction, opponentAction: opponentAction)
