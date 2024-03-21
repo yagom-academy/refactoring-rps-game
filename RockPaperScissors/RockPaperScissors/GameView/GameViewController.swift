@@ -10,8 +10,9 @@ class GameViewController: UIViewController {
     
     
     override func loadView() {
+        
         let gameRule = RPSGameRule(targetScore: 3)
-        //        let gameRule = MJBGameRule(targetScore: 1)
+//      let gameRule = MJBGameRule(targetScore: 2)
         view = GameView(gameRule: gameRule, showAlert: showAlert)
     }
     

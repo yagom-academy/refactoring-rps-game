@@ -53,7 +53,7 @@ class MJBGameRule : GameRule {
             self.isMyTurn = false
         }
         
-        return nil
+        return .playing
     }
     
     func resetGameStatue() {

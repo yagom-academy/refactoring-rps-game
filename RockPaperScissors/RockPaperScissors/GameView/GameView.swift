@@ -24,41 +24,20 @@ class GameView: UIView {
         guard let myAction = Actions.random(),
               let computerAction = Actions.random() else { return }
         
-        userHandLabel.text = myAction.icon
-        computerHandLabel.text = computerAction.icon
-        
         // game rule 적용 (play)
-        let playResult = gameRule.playGame(myAction: myAction, opponentAction: computerAction)
+        guard let playResult = gameRule.playGame(myAction: myAction, opponentAction: computerAction) else { return }
         
         // play result 확인
-        currentWinLoseLabel.text = "\(gameRule.gameStatus.score.win)승 \(gameRule.gameStatus.score.draw)무 \(gameRule.gameStatus.score.lose)패"
-        switch playResult {
-        case .draw:
-            resultLabel.text = "비겼어요"
-        case .win:
-            resultLabel.text = "이겼어요"
-        case .lose:
-            resultLabel.text = "졌어요"
-        default:
-            resultLabel.text = "ㅤㅤㅤㅤ "
-        }
+        updateLabels(myAction: myAction, computerAction: computerAction, playResult: playResult, status: gameRule.gameStatus)
         
         // 전체 game result에 따른 처리
-        let gameResult = gameRule.gameStatus.gameResult
-        switch gameResult {
-        case .win:
-            showAlert(winAlertController)
-            
-        case .lose:
-            showAlert(loseAlertController)
-
-        default:
-            return
-        }
+        checkGameFinished(status: gameRule.gameStatus)
+        
     }
     
     @objc private func touchUpResetButton() {
-        // game status 초기화
+        gameRule.resetGameStatue()
+        resetLables()
     }
     
     private func initialSetup() {
@@ -71,7 +50,7 @@ class GameView: UIView {
         
         let retryAlert = UIAlertAction(title: "다시하기", style: .default) { _ in
             self.gameRule.resetGameStatue()
-            self.resetContents()
+            self.resetLables()
         }
         
         winAlertController.addAction(retryAlert)
@@ -83,11 +62,54 @@ class GameView: UIView {
         }
     }
     
-    private func resetContents() {
+    private func resetLables() {
         computerHandLabel.text = Actions.paper.icon
         userHandLabel.text = Actions.paper.icon
         resultLabel.text = " "
         currentWinLoseLabel.text = "\(gameRule.gameStatus.score.win)승 \(gameRule.gameStatus.score.draw)무 \(gameRule.gameStatus.score.lose)패"
+    }
+    
+    private func updateLabels(myAction: Actions, computerAction: Actions, playResult: GameResult, status: GameStatus) {
+        userHandLabel.text = myAction.icon
+        computerHandLabel.text = computerAction.icon
+        currentWinLoseLabel.text = "\(status.score.win)승 \(status.score.draw)무 \(status.score.lose)패"
+        resultLabel.text = getResultString(from: playResult)
+    }
+    
+    private func checkGameFinished(status: GameStatus) {
+        let gameResult = status.gameResult
+        switch gameResult {
+        case .win:
+            showAlert(winAlertController)
+            
+        case .lose:
+            showAlert(loseAlertController)
+
+        default:
+            return
+        }
+    }
+    
+    private func getResultString(from playResult: GameResult) -> String {
+        switch playResult {
+        case .draw:
+            return "비겼어요"
+        case .win:
+            return "이겼어요"
+        case .lose:
+            return "졌어요"
+        case .playing:
+            // 게임이 진행중인 상황에서는
+            guard let isMyTurn = gameRule.isMyTurn else {
+                return " "
+            }
+            
+            if isMyTurn {
+                return "내 차례"
+            } else {
+                return "상대 차례"
+            }
+        }
     }
     
     private func setLayout() {
@@ -164,7 +186,7 @@ class GameView: UIView {
         super.init(frame: .zero)
         
         initialSetup()
-        resetContents()
+        resetLables()
         setLayout()
     }
     
