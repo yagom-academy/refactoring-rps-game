@@ -11,12 +11,12 @@ enum GameResult: Int {
     case draw = 0, win, lose, playing
     
     mutating func update(with gameScore: GameScore) {
-        if gameScore.targetScore >= gameScore.win {
+        if gameScore.win >= gameScore.targetScore {
             self = .win
             return
         }
         
-        if gameScore.targetScore >= gameScore.lose {
+        if gameScore.lose >= gameScore.targetScore {
             self = .lose
             return
         }
