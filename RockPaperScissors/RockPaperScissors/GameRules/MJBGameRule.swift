@@ -8,13 +8,12 @@
 import Foundation
 
 class MJBGameRule : GameRule {
-    var score: GameScore
-    var gameState: GameState = .playing
+    var gameStatus: GameStatus
     var isMyTurn: Bool?
     
     
     init(targetScore: Int) {
-        self.score = GameScore(targetScore: targetScore)
+        self.gameStatus = GameStatus(targetScore: targetScore)
         self.isMyTurn = true
     }
     

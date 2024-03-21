@@ -14,21 +14,7 @@ struct GameScore {
     var draw: Int = 0
     var lose: Int = 0
     
-    var matchResult: GameResult {
-        get {
-            if win == targetScore {
-                return GameResult.win
-            }
-            else if lose == targetScore {
-                return GameResult.lose
-            }
-            else {
-                return GameResult.draw
-            }
-        }
-    }
-    
-    mutating func applyMatchResult(matchResult: MatchResult) {
+    mutating func apply(matchResult: MatchResult) {
         switch matchResult {
         case .draw:
             draw += 1

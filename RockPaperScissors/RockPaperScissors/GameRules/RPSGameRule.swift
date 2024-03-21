@@ -10,12 +10,11 @@ import Foundation
 
 final class RPSGameRule: GameRule {
     init(targetScore: Int) {
-        score = GameScore(targetScore: targetScore)
+        gameStatus = GameStatus(targetScore: targetScore)
     }
     
     var isMyTurn: Bool? = nil
-    var score: GameScore
-    var gameState: GameState = .playing
+    var gameStatus: GameStatus
     
     func matchRule(myAction: Actions, opponentAction: Actions) -> MatchResult {
         switch (myAction, opponentAction) {
@@ -28,15 +27,11 @@ final class RPSGameRule: GameRule {
         default:
             return .draw
       }
-        
     }
     
     func playGame(myAction: Actions, opponentAction: Actions) {
         let matchResult = matchRule(myAction: myAction, opponentAction: opponentAction)
-        
-        score.applyMatchResult(matchResult: matchResult)
-        
-        
+        gameStatus.applyMatchResult(matchResult: matchResult)
     }
 }
 

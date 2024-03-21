@@ -8,8 +8,7 @@
 import Foundation
 
 protocol GameRule {
-    var score: GameScore { get }
-    var gameState: GameState { get }
+    var gameStatus: GameStatus { get }
     var isMyTurn: Bool? { get }
     
     func matchRule(myAction: Actions, opponentAction: Actions) -> MatchResult
