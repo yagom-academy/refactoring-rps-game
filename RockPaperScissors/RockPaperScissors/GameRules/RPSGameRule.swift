@@ -46,7 +46,6 @@ final class RPSGameRule: GameRule {
     func resetGameStatue() {
         gameStatus.reset()
     }
-    
 }
 
 

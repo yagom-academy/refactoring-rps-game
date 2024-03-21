@@ -8,8 +8,6 @@
 import Foundation
 
 class MJBGameRule : GameRule {
-    
-    
     var gameStatus: GameStatus
     var isMyTurn: Bool?
     
