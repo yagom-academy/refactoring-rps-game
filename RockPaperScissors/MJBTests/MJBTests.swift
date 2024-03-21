@@ -23,16 +23,15 @@ final class MJBTests: XCTestCase {
         sut = nil
     }
     
-    // 어떻게 작성해야하나?
     func test_차례가_없으면_종료하기() {
         // given
         sut.isMyTurn = nil
         
         // when
-        let _ = sut.playGame(myAction: .paper, opponentAction: .rock)
+        let playResult = sut.playGame(myAction: .paper, opponentAction: .rock)
         
         // then
-        
+        XCTAssertNil(playResult)
     }
 
     func test_양쪽에서_패를냈을때_묵_묵을_낸경우_match비기기(){
