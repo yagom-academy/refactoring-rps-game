@@ -9,7 +9,7 @@ import XCTest
 
 @testable import RockPaperScissors
 
-final class UpDownGameUITests: XCTestCase {
+final class RockPaperScissorsTests: XCTestCase {
     var sut: RPSGameRule!
     
     override func setUpWithError() throws {
@@ -28,7 +28,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .rock
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.draw)
@@ -40,7 +40,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .sissor
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.win)
@@ -52,7 +52,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .paper
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.lose)
@@ -64,7 +64,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .rock
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.lose)
@@ -76,7 +76,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .sissor
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.draw)
@@ -88,7 +88,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .paper
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.win)
@@ -100,7 +100,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .rock
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.win)
@@ -112,7 +112,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .sissor
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.lose)
@@ -124,7 +124,7 @@ final class UpDownGameUITests: XCTestCase {
         let yourAction: Actions = .paper
         
         // when
-        let result = sut.match(myAction: myAction, opponentAction: yourAction)
+        let result = sut.matchRule(myAction: myAction, opponentAction: yourAction)
         
         // then
         XCTAssertEqual(result, MatchResult.draw)
@@ -132,46 +132,48 @@ final class UpDownGameUITests: XCTestCase {
     
     func test_내가먼저_3판을이긴경우_삼세판이기기() {
         // given
-        sut.score.win = 3
-        sut.score.lose = 2
+        sut.gameStatus.score.win = 2
+        sut.gameStatus.score.lose = 2
         
         // when
-        let result = sut.score.matchResult
+        sut.gameStatus.applyMatchResult(matchResult: .win)
+        let result = sut.gameStatus.gameResult
         
         // then
-        XCTAssertEqual(result, MatchResult.win)
+        XCTAssertEqual(result, GameResult.win)
     }
     
     func test_내가먼저_3판을진경우_삼세판이기기() {
         // given
-        sut.score.win = 2
-        sut.score.lose = 3
+        sut.gameStatus.score.win = 2
+        sut.gameStatus.score.lose = 2
         
         // when
-        let result = sut.score.matchResult
+        sut.gameStatus.applyMatchResult(matchResult: .lose)
+        let result = sut.gameStatus.gameResult
         
         // then
-        XCTAssertEqual(result, MatchResult.lose)
+        XCTAssertEqual(result, GameResult.lose)
     }
     
     func test_아직_3판을이긴상황이없는경우_삼세판비기기() {
         // given
-        sut.score.win = 0
-        sut.score.lose = 0
+        sut.gameStatus.score.win = 0
+        sut.gameStatus.score.lose = 0
         
         // when
-        let result = sut.score.matchResult
+        let result = sut.gameStatus.gameResult
         
         // then
-        XCTAssertEqual(result, MatchResult.draw)
+        XCTAssertEqual(result, GameResult.playing)
     }
     
     func test_playGame이_승리시_winscore를1올려주는지() {
         // given
-        sut.playGame(myAction: .paper, opponentAction: .rock)
+        let _ = sut.playGame(myAction: .paper, opponentAction: .rock)
         
         // result
-        let result = sut.score.win
+        let result = sut.gameStatus.score.win
         
         // then
         XCTAssertEqual(result, 1)
@@ -179,10 +181,10 @@ final class UpDownGameUITests: XCTestCase {
     
     func test_playGame이_패배시_losescore를1올려주는지() {
         // given
-        sut.playGame(myAction: .sissor, opponentAction: .rock)
+        let _ = sut.playGame(myAction: .sissor, opponentAction: .rock)
         
         // result
-        let result = sut.score.lose
+        let result = sut.gameStatus.score.lose
         
         // then
         XCTAssertEqual(result, 1)
@@ -190,47 +192,47 @@ final class UpDownGameUITests: XCTestCase {
     
     func test_playGame이_비길시_drawscore를1올려주는지() {
         // given
-        sut.playGame(myAction: .rock, opponentAction: .rock)
+        let _ = sut.playGame(myAction: .rock, opponentAction: .rock)
         
         // result
-        let result = sut.score.draw
+        let result = sut.gameStatus.score.draw
         
         // then
         XCTAssertEqual(result, 1)
     }
     
-    func test_playGame이_승리했을때_gameState를_done으로변경하는지() {
+    func test_playGame이_승리했을때_gameResult를_win으로변경하는지() {
         // given
-        sut.score.win = 2
+        sut.gameStatus.score.win = 2
         
         // result
-        sut.playGame(myAction: .rock, opponentAction: .sissor)
-        let result = sut.gameState
+        let _ = sut.playGame(myAction: .rock, opponentAction: .sissor)
+        let result = sut.gameStatus.gameResult
         
         // then
-        XCTAssertEqual(result, .done)
+        XCTAssertEqual(result, .win)
     }
     
-    func test_playGame이_패배했을때_gameState를_done으로변경하는지() {
+    func test_playGame이_패배했을때_gameResult를_lose으로변경하는지() {
         // given
-        sut.score.lose = 2
+        sut.gameStatus.score.lose = 2
         
         // result
-        sut.playGame(myAction: .rock, opponentAction: .paper)
-        let result = sut.gameState
+        let _ = sut.playGame(myAction: .rock, opponentAction: .paper)
+        let result = sut.gameStatus.gameResult
         
         // then
-        XCTAssertEqual(result, .done)
+        XCTAssertEqual(result, .lose)
     }
     
     func test_playGame이_게임중일때_gameState를_playing으로유지하는지() {
         // given
-        sut.score.win = 2
-        sut.score.lose = 2
+        sut.gameStatus.score.win = 2
+        sut.gameStatus.score.lose = 2
         
         // result
-        sut.playGame(myAction: .rock, opponentAction: .rock)
-        let result = sut.gameState
+        let _ = sut.playGame(myAction: .rock, opponentAction: .rock)
+        let result = sut.gameStatus.gameResult
         
         // then
         XCTAssertEqual(result, .playing)
