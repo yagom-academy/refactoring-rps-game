@@ -6,6 +6,7 @@
 
 import UIKit
 
+//fileprivate
 fileprivate enum Hand {
     static let paper: String = "🖐️"
     static let rock: String = "✊"
