@@ -9,23 +9,23 @@ import Foundation
 
 protocol Player {
     var score: Score { get set }
-    var hand: Hand? { get set }
+    var hand: Hand { get set }
     
     mutating func selectHand()
 }
 
 extension Player {
     mutating func selectHand() {
-        self.hand = Hand.allCases.randomElement()
+        self.hand = Hand.allCases.randomElement() ?? .paper
     }
 }
 
 struct User: Player {
     var score: Score
-    var hand: Hand?
+    var hand: Hand
 }
 
 struct Computer: Player {
     var score: Score
-    var hand: Hand?
+    var hand: Hand
 }

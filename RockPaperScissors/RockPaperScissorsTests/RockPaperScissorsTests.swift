@@ -102,15 +102,4 @@ final class RockPaperScissorsTests: XCTestCase {
         
         XCTAssertTrue(twoPlayersHaveTheSameScore && isZeroScore, messageWhenTestFails)
     }
-    
-    func test_selectHand() {
-        let messageWhenTestFails = "가위바위보 패 고르기 실패"
-        rps.user.selectHand()
-        rps.computer.selectHand()
-        let isValidHandUser = rps.user.hand != nil
-        let isValidHandComputer = rps.computer.hand != nil
-        
-        XCTAssertTrue(isValidHandUser, messageWhenTestFails)
-        XCTAssertTrue(isValidHandComputer, messageWhenTestFails)
-    }
 }
