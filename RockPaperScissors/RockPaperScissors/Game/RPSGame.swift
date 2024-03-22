@@ -7,13 +7,9 @@
 
 import Foundation
 
-enum ResultByUser: Equatable {
-    case userWon, userDrew, userLost
-}
-
-struct RPSGame {
-    var user: Player = User(score: Score())
-    var computer: Player = Computer(score: Score())
+final class RPSGame {
+    var user: Player = User(score: Score(), hand: .paper)
+    var computer: Player = Computer(score: Score(), hand: .paper)
     
     func play() {
         applyScore(result: userVersusComputer())
@@ -26,37 +22,17 @@ struct RPSGame {
         computer.score.reset()
     }
     
-    func userVersusComputer() -> ResultByUser {
-        switch user.hand {
-        case .paper:
-            if computer.hand == .scissor {
-                return .userLost
-            } else if computer.hand == .rock {
-                return .userWon
-            } else if computer.hand == .paper {
-                return .userDrew
-            }
-        case .rock:
-            if computer.hand == .scissor {
-                return .userWon
-            } else if computer.hand == .rock {
-                return .userDrew
-            } else if computer.hand == .paper {
-                return .userLost
-            }
-        case .scissor:
-            if computer.hand == .scissor {
-                return .userDrew
-            } else if computer.hand == .rock {
-                return .userLost
-            } else if computer.hand == .paper {
-                return .userWon
-            }
-        case .none:
-            break
+    func userVersusComputer() -> RoundMatchResult {
+        switch (user.hand, computer.hand) {
+        case (.paper, .scissor), (.rock, .paper), (.scissor, .rock):
+            return .userLost
+            
+        case (.paper, .rock), (.rock, .scissor), (.scissor, .paper):
+            return .userWon
+            
+        case (.paper, .paper), (.rock, .rock), (.scissor, .scissor):
+            return .userDrew
         }
-        
-        return .userDrew
     }
     
     func finalWinner() -> Player? {
@@ -71,18 +47,10 @@ struct RPSGame {
         return user.score.win == 3 || computer.score.win == 3
     }
     
-    func applyScore(result: ResultByUser) {
-        switch result {
-        case .userWon:
-            user.score.win += 1
-            computer.score.lose += 1
-        case .userLost:
-            user.score.lose += 1
-            computer.score.win += 1
-        case .userDrew:
-            user.score.draw += 1
-            computer.score.draw += 1
-        }
+    func applyScore(result: RoundMatchResult) {
+        let newScore = result.strategy.applyScore(user.score, computer.score)
+        user.score = newScore.user
+        computer.score = newScore.computer
     }
 }
 
