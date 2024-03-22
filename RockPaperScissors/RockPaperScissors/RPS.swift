@@ -7,6 +7,9 @@
 
 import Foundation
 
+
+//GameView에 있는 fileprivate enum의 Hand를 공유해도 되는 건지.? 일단 따로 쓰긴했어요..
+
 fileprivate enum Hand {
     static let paper: String = "🖐️"
     static let rock: String = "✊"
@@ -38,7 +41,8 @@ struct Genealogy {
 
 class RPS {
     let genealogy: Genealogy
-    
+    var count:[Int] = [0,0]
+
     init(genealogy: Genealogy) {
         self.genealogy = genealogy
     }
@@ -51,9 +55,15 @@ class RPS {
             throw NSError() as Error
         }
         
-        fightToMatch(of: rps)
+        var countting = self.count//[0,0]
         
-        return true
+        while !besttwooutOfthree(of: 3, in: countting)[0] && !besttwooutOfthree(of: 3, in: countting)[1] {
+            print(self.count)
+            countting = fightToMatch(of: rps, count: self.count)
+       
+        }
+        
+        return fightToResult(of: besttwooutOfthree(of: 3, in: countting))
     }
     
     //손인지 확인
@@ -67,13 +77,13 @@ class RPS {
     }
         
     //승패 확인
-    func fightToMatch(of rps: [String]) -> [Int] {
-        return fightToCounting(of: genealogy.determineWinner(hand: rps))
+    func fightToMatch(of rps: [String], count: [Int]) -> [Int] {
+        return fightToCounting(of: genealogy.determineWinner(hand: rps), counts: count)
     }
     
     //승패 카운팅
-    func fightToCounting(of matching: String) -> [Int] {
-        var counts:[Int] = [0, 0]
+    func fightToCounting(of matching: String, counts: [Int]) -> [Int] {
+        var counts:[Int] = counts // [0:0]
         
         if matching == "승" {
             counts[0] += 1
@@ -81,11 +91,20 @@ class RPS {
             counts[1] += 1
         }
 
+        self.count = counts
         return counts
     }
-    
-    func besttwooutOfthree() {
         
+    //삼세판
+    func besttwooutOfthree(of target: Int, in counting: [Int]) -> [Bool] {
+        return counting.map { $0 == target } //[true, false]
     }
+
     
+    //삼세판후 대결 결과
+    func fightToResult(of countingResult: [Bool]) -> Bool {
+        //index0 = 나
+        //index1 = 컴퓨터
+        return countingResult[0]
+    }
 }
