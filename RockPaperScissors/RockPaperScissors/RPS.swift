@@ -55,7 +55,7 @@ class RPS {
             throw NSError() as Error
         }
         
-        var countting = self.count//[0,0]
+        var countting = self.count
         
         while !besttwooutOfthree(of: 3, in: countting)[0] && !besttwooutOfthree(of: 3, in: countting)[1] {
             print(self.count)
@@ -83,7 +83,7 @@ class RPS {
     
     //승패 카운팅
     func fightToCounting(of matching: String, counts: [Int]) -> [Int] {
-        var counts:[Int] = counts // [0:0]
+        var counts:[Int] = counts
         
         if matching == "승" {
             counts[0] += 1
@@ -99,7 +99,7 @@ class RPS {
     func besttwooutOfthree(of target: Int, in counting: [Int]) -> [Bool] {
         return counting.map { $0 == target } //[true, false]
     }
-
+    
     
     //삼세판후 대결 결과
     func fightToResult(of countingResult: [Bool]) -> Bool {
