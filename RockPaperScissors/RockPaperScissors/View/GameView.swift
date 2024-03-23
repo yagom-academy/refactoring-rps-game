@@ -6,13 +6,7 @@
 
 import UIKit
 
-fileprivate enum Hand {
-    static let paper: String = "🖐️"
-    static let rock: String = "✊"
-    static let scissor: String = "✌️"
-}
-
-class GameView: UIView {
+final class GameView: UIView {
 
     private let computerHandLabel: UILabel = UILabel()
     private let userHandLabel: UILabel = UILabel()
@@ -31,8 +25,8 @@ class GameView: UIView {
     private func initialSetup() {
         backgroundColor = .white
         
-        computerHandLabel.text = Hand.paper
-        userHandLabel.text = Hand.paper
+        computerHandLabel.text = Hand.paper.emoji
+        userHandLabel.text = Hand.paper.emoji
         resultLabel.text = "이겼습니다!"
         currentWinLoseLabel.text = "0승 0무 0패"
         
